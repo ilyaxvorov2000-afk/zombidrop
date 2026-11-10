@@ -3,31 +3,36 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ZombiDrop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101710">
+<title>ZombiDrop 🧟</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101710;color:white;font-family:Arial;padding:20px 16px 100px}
-header{text-align:center;margin:15px 0 25px}
-.logo{font-size:60px}
-h1{color:#8cff65;letter-spacing:3px}
-.subtitle{color:#aab8a9;font-size:13px}
-.balance{background:linear-gradient(135deg,#254b29,#152d19);border:1px solid #477d40;border-radius:22px;padding:25px;text-align:center}
+body{margin:0;background:#101710;color:white;font-family:Arial,sans-serif;padding:20px 16px 95px}
+header{text-align:center;padding:12px 0 25px}
+.logo{font-size:58px}
+h1{color:#8cff65;letter-spacing:3px;margin:8px}
+.subtitle{color:#aab8a9;font-size:12px}
+.balance,.card{background:#1b261c;border:1px solid #304632;border-radius:20px;padding:20px;margin-bottom:15px}
+.balance{text-align:center;background:linear-gradient(135deg,#254b29,#152d19)}
+.balance small{color:#b6d6ae;letter-spacing:2px}
 .coins{font-size:42px;font-weight:bold;color:#a2ff70;margin:15px}
-button{background:#80e75c;color:#10200e;border:0;border-radius:12px;padding:12px 17px;font-weight:bold}
-.card{background:#1b261c;border:1px solid #304632;border-radius:17px;padding:18px;margin-top:15px}
-h2{font-size:19px;margin-top:0}
-p{color:#b8c5b7;line-height:1.5}
-.task{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #344334}
+h2{font-size:19px;margin:0 0 14px}
+p{color:#b8c5b7;line-height:1.5;font-size:14px}
 .page{display:none}
 .page.active{display:block}
-nav{position:fixed;bottom:0;left:0;right:0;background:#172218;border-top:1px solid #344a34;display:flex;justify-content:space-around;padding:12px 3px}
-nav button{background:transparent;color:#aab8a9;padding:8px;font-size:12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#172218;border-top:1px solid #344a34;display:flex;justify-content:space-around;padding:10px 3px calc(10px + env(safe-area-inset-bottom))}
+nav button{background:transparent;border:0;color:#aab8a9;padding:8px;font-size:12px}
 nav button.active{color:#8cff65}
+button.action{background:#80e75c;color:#10200e;border:0;border-radius:12px;padding:13px 18px;font-weight:bold}
+.status{font-size:13px;color:#a2ff70;margin-top:12px;overflow-wrap:anywhere}
+.task{padding:13px 0;border-bottom:1px solid #344334}
+.task:last-child{border:0}
 </style>
 </head>
 <body>
+
 <header>
 <div class="logo">🧟</div>
 <h1>ZOMBIDROP</h1>
@@ -36,42 +41,42 @@ nav button.active{color:#8cff65}
 
 <section id="home" class="page active">
 <div class="balance">
-<div>ТВОЙ БАЛАНС</div>
-<div class="coins" id="coins">0 🪙</div>
-<button onclick="earn()">СОБРАТЬ МОНЕТЫ</button>
+<small>ТВОЙ БАЛАНС</small>
+<div class="coins" id="coins">Загрузка...</div>
+<div id="player">Проверяем Telegram...</div>
+<div class="status" id="status"></div>
 </div>
 <div class="card">
 <h2>🎁 Ежедневный бонус</h2>
-<p>Забирай ежедневную награду!</p>
-<button onclick="bonus()">ЗАБРАТЬ БОНУС</button>
+<p>Скоро здесь появится ежедневная награда.</p>
 </div>
 <div class="card">
 <h2>🧟 Добро пожаловать!</h2>
-<p>Выполняй задания, собирай монеты и приглашай друзей.</p>
+<p>Собирай монеты, выполняй задания и приглашай друзей.</p>
 </div>
 </section>
 
 <section id="tasks" class="page">
 <div class="card">
 <h2>📋 Задания</h2>
-<div class="task"><span>Подписаться на канал</span><button onclick="alert('Задание скоро появится')">+100 🪙</button></div>
-<div class="task"><span>Пригласить друга</span><button onclick="go('friends')">+250 🪙</button></div>
-<div class="task"><span>Ежедневный вход</span><button onclick="bonus()">Забрать</button></div>
+<div class="task">📢 Подписка на канал — скоро</div>
+<div class="task">👥 Приглашение друзей — скоро</div>
+<div class="task">🎁 Ежедневный вход — скоро</div>
 </div>
 </section>
 
 <section id="friends" class="page">
 <div class="card">
 <h2>👥 Приглашай друзей</h2>
-<p>Расскажи друзьям о ZombiDrop!</p>
-<button onclick="share()">ПРИГЛАСИТЬ ДРУГА</button>
+<p>Реферальная система скоро появится.</p>
+<button class="action" onclick="share()">ПРИГЛАСИТЬ ДРУГА</button>
 </div>
 </section>
 
 <section id="rating" class="page">
 <div class="card">
-<h2>🏆 Рейтинг игроков</h2>
-<p>Таблица лидеров скоро появится!</p>
+<h2>🏆 Рейтинг</h2>
+<p>Таблица лидеров скоро появится.</p>
 </div>
 </section>
 
@@ -83,51 +88,75 @@ nav button.active{color:#8cff65}
 </nav>
 
 <script>
-const tg=window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
+
+const API_URL = "https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
+
+const PUBLIC_KEY = "sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
+
 tg.ready();
 tg.expand();
 
-let coins=Number(localStorage.getItem('zombi_coins')||0);
-
-function update(){
-document.getElementById('coins').textContent=coins.toLocaleString('ru-RU')+' 🪙';
-localStorage.setItem('zombi_coins',coins);
-}
-
-function earn(){
-coins+=10;
-update();
-}
-
-function bonus(){
-const today=new Date().toDateString();
-if(localStorage.getItem('zombi_bonus')===today){
-alert('Бонус уже получен сегодня!');
-return;
-}
-coins+=100;
-localStorage.setItem('zombi_bonus',today);
-update();
-alert('Ты получил 100 монет! 🎁');
-}
-
 function go(page,button){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(page).classList.add('active');
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-if(button)button.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if(button)button.classList.add('active');
 }
 
 function share(){
-const link='https://t.me/share/url?url='+encodeURIComponent('https://t.me/ZombiDropBot')+'&text='+encodeURIComponent('Заходи в ZombiDrop! 🧟');
-if(tg.initDataUnsafe && tg.initDataUnsafe.user){
-tg.openTelegramLink(link);
-}else{
-window.open(link,'_blank');
-}
+  const link='https://t.me/share/url?url='+encodeURIComponent('https://t.me/ZombiDropBot');
+  if(tg.initData){
+    tg.openTelegramLink(link);
+  }else{
+    window.open(link,'_blank');
+  }
 }
 
-update();
+async function loadProfile(){
+  const status=document.getElementById('status');
+  const coins=document.getElementById('coins');
+  const player=document.getElementById('player');
+
+  if(!tg.initData){
+    coins.textContent='— 🪙';
+    player.textContent='Открой игру через Telegram';
+    status.textContent='Запусти бота и открой Mini App.';
+    return;
+  }
+
+  try{
+    const response=await fetch(API_URL,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':PUBLIC_KEY
+      },
+      body:JSON.stringify({initData:tg.initData})
+    });
+
+    const result=await response.json();
+
+    if(!response.ok){
+      throw new Error(result.error || 'Ошибка сервера: '+response.status);
+    }
+
+    if(!result.profile){
+      throw new Error('Профиль не получен');
+    }
+
+    coins.textContent=Number(result.profile.coins).toLocaleString('ru-RU')+' 🪙';
+    player.textContent='Игрок: '+(result.profile.first_name || result.profile.username || result.profile.id);
+    status.textContent='Аккаунт подключён ✓';
+
+  }catch(error){
+    coins.textContent='— 🪙';
+    player.textContent='Не удалось загрузить профиль';
+    status.textContent=error.message;
+  }
+}
+
+loadProfile();
 </script>
 </body>
 </html>
