@@ -22,7 +22,8 @@ button{border:0;cursor:pointer;font-weight:bold;font-size:15px}
 #splash.hide{opacity:0;pointer-events:none}
 header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:23px;font-weight:1000;color:#ff3549;letter-spacing:1px}
-.balance{background:#241116;border:1px solid #59202b;padding:10px 14px;border-radius:13px;color:#ff5365;font-weight:bold}
+.balance{background:#241116;border:1px solid #59202b;padding:10px 14px;border-radius:13px;color:#ffcf70;font-weight:bold}
+.ruble{color:#ffcf70;font-weight:1000;text-shadow:0 0 10px #ffae35}
 .page{display:none;padding:12px 16px}
 .page.active{display:block}
 .hero{background:linear-gradient(135deg,#54131e,#1b0d12 75%);border:1px solid #6b202c;border-radius:20px;padding:22px;margin-bottom:18px}
@@ -79,14 +80,14 @@ header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:sp
 
 <header>
   <div class="logo">🧟 ZOMBI DROP</div>
-  <div class="balance">🪙 <span id="coins">0</span></div>
+  <div class="balance"><span class="ruble">₽</span> <span id="coins">0</span></div>
 </header>
 
 <main>
 <section class="page active" id="home">
   <div class="hero">
     <h1>Добро пожаловать!</h1>
-    <p>Открывай кейсы, играй в мини-игры и собирай монеты в ZombiDrop.</p>
+    <p>Открывай кейсы, играй в мини-игры и собирай награды в ZombiDrop.</p>
     <button class="red-btn" onclick="showPage('cases')">Открыть кейсы</button>
   </div>
   <div class="section-title">🔥 Популярное</div>
@@ -107,17 +108,17 @@ header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:sp
   <div class="section-title">🎁 Кейсы</div>
   <div class="case-card">
     <div class="case-icon">🎁</div>
-    <div class="case-info"><b>Ежедневный</b><div class="muted">Бесплатно · до 100 монет</div></div>
+    <div class="case-info"><b>Ежедневный</b><div class="muted">Бесплатно · до 100 ₽</div></div>
     <button class="red-btn" onclick="openCase('daily')">Открыть</button>
   </div>
   <div class="case-card">
     <div class="case-icon">📦</div>
-    <div class="case-info"><b>Обычный</b><div class="muted">Цена: 100 монет</div></div>
+    <div class="case-info"><b>Обычный</b><div class="muted">Цена: 100 ₽</div></div>
     <button class="red-btn" onclick="openCase('basic')">Открыть</button>
   </div>
   <div class="case-card">
     <div class="case-icon">💎</div>
-    <div class="case-info"><b>Элитный</b><div class="muted">Цена: 500 монет</div></div>
+    <div class="case-info"><b>Элитный</b><div class="muted">Цена: 500 ₽</div></div>
     <button class="red-btn" onclick="openCase('premium')">Открыть</button>
   </div>
 </section>
@@ -125,11 +126,11 @@ header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:sp
 <section class="page" id="games">
   <div class="section-title">🎮 Мини-игры</div>
   <div class="game-card">
-    <div class="game-icon">🎯</div><div class="game-info"><b>Угадай число</b><p>Награда: 50 монет</p></div>
+    <div class="game-icon">🎯</div><div class="game-info"><b>Угадай число</b><p>Награда: 50 ₽</p></div>
     <button class="red-btn" onclick="showPage('guess')">Играть</button>
   </div>
   <div class="game-card">
-    <div class="game-icon">🪙</div><div class="game-info"><b>Орёл или решка</b><p>Награда: 40 монет</p></div>
+    <div class="game-icon">🪙</div><div class="game-info"><b>Орёл или решка</b><p>Награда: 40 ₽</p></div>
     <button class="red-btn" onclick="showPage('coinflip')">Играть</button>
   </div>
   <div class="game-card">
@@ -141,7 +142,7 @@ header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:sp
 <section class="page" id="guess">
   <button class="back" onclick="showPage('games')">← Назад к играм</button>
   <div class="section-title">🎯 Угадай число</div>
-  <div class="notice">Загадано число от 1 до 5. Угадай его и получи 50 монет. Одна попытка в день.</div>
+  <div class="notice">Загадано число от 1 до 5. Угадай его и получи 50 ₽. Одна попытка в день.</div>
   <div class="number-grid">
     <button class="number-btn" onclick="playGuess(1)">1</button>
     <button class="number-btn" onclick="playGuess(2)">2</button>
@@ -155,7 +156,7 @@ header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:sp
 <section class="page" id="coinflip">
   <button class="back" onclick="showPage('games')">← Назад к играм</button>
   <div class="section-title">🪙 Орёл или решка</div>
-  <div class="notice">Угадай сторону монеты. За правильный ответ — 40 монет. Одна попытка в день.</div>
+  <div class="notice">Угадай сторону монеты. За правильный ответ — 40 ₽. Одна попытка в день.</div>
   <div class="choice-grid">
     <button class="choice-btn" onclick="playMini('coinflip','орёл')">🦅<br>Орёл</button>
     <button class="choice-btn" onclick="playMini('coinflip','решка')">🪙<br>Решка</button>
@@ -177,7 +178,7 @@ header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:sp
   <div class="profile-card">
     <div class="profile-avatar">🧟</div>
     <div class="profile-name" id="profile-name">Игрок</div>
-    <div class="stat-row"><span>Баланс</span><b>🪙 <span id="profile-coins">0</span></b></div>
+    <div class="stat-row"><span>Баланс</span><b class="ruble">₽ <span id="profile-coins">0</span></b></div>
     <div class="stat-row"><span>Рефералы</span><b id="profile-referrals">0</b></div>
     <div class="stat-row"><span>ID</span><b id="profile-id">—</b></div>
   </div>
@@ -274,7 +275,7 @@ async function openCase(caseId){
     if(data.profile)updateProfile(data.profile);
     const result=data.result||data;
     if(result.error)throw new Error(result.error);
-    showModal("🎁","Кейс открыт!","Ты получил "+(result.reward??0)+" монет!");
+    showModal("🎁","Кейс открыт!","Ты получил "+(result.reward??0)+" ₽!");
   }catch(e){
     showModal("⚠️","Не получилось",e.message);
   }finally{busy=false;}
@@ -289,7 +290,7 @@ async function playGuess(number){
     const r=data.result||data;
     if(r.error)throw new Error(r.error);
     document.getElementById("guess-result").textContent=
-      r.won?"🎉 Ты угадал! +"+r.reward+" монет. Загаданное число: "+r.number:
+      r.won?"🎉 Ты угадал! +"+r.reward+" ₽. Загаданное число: "+r.number:
       "Не угадал! Было загадано число "+r.number+". Попробуй завтра.";
     document.querySelectorAll(".number-btn").forEach(b=>b.disabled=true);
   }catch(e){
@@ -307,12 +308,12 @@ async function playMini(game,choice){
     if(r.error)throw new Error(r.error);
     if(game==="coinflip"){
       document.getElementById("coin-result").textContent=
-        "Выпало: "+(r.result?.side||r.side||"—")+". "+(r.won?"Ты выиграл! ":"")+"Награда: "+(r.reward||0)+" монет.";
+        "Выпало: "+(r.result?.side||r.side||"—")+". "+(r.won?"Ты выиграл! ":"")+"Награда: "+(r.reward||0)+" ₽.";
     }else{
       const symbols=r.result?.symbols||r.symbols||[];
       document.getElementById("slot-icons").textContent=symbols.join(" ");
       document.getElementById("slot-result").textContent=
-        "Результат: "+(r.reward||0)+" монет!";
+        "Результат: "+(r.reward||0)+" ₽!";
     }
   }catch(e){
     const target=game==="coinflip"?"coin-result":"slot-result";
@@ -327,9 +328,7 @@ function showModal(icon,title,message){
   document.getElementById("modal").classList.add("show");
 }
 function closeModal(){document.getElementById("modal").classList.remove("show");}
-function showNotice(message){
-  console.log(message);
-}
+function showNotice(message){console.log(message);}
 
 setTimeout(()=>{
   document.getElementById("splash").classList.add("hide");
