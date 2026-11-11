@@ -1,133 +1,298 @@
 
-* {
-  box-sizing: border-box;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#171719">
+<title>ZombiDrop 🧟</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:20px 16px 100px;
+  background:#171719;
+  color:#f4f4f4;
+  font-family:Arial,sans-serif;
+}
+header{text-align:center;padding:12px 0 25px}
+.logo{
+  font-size:65px;
+  filter:drop-shadow(0 0 15px #ff3b45);
+}
+h1{
+  color:#ff3b45;
+  letter-spacing:4px;
+  margin:8px;
+  font-size:27px;
+}
+.subtitle{color:#aaa;font-size:11px;letter-spacing:2px}
+.balance,.card{
+  background:#222225;
+  border:1px solid #39393e;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:15px;
+}
+.balance{
+  text-align:center;
+  background:linear-gradient(145deg,#482126,#211719);
+  border:1px solid #713039;
+  box-shadow:0 8px 30px #0005;
+}
+.balance small{color:#ffb2b6;letter-spacing:2px}
+.coins{
+  font-size:42px;
+  font-weight:bold;
+  color:#ff5962;
+  margin:15px;
+  text-shadow:0 0 15px #ff3b4555;
+}
+h2{font-size:19px;margin:0 0 14px}
+p{color:#c3c3c8;line-height:1.5;font-size:14px}
+.page{display:none}
+.page.active{display:block}
+nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#202024;
+  border-top:1px solid #414146;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 3px calc(10px + env(safe-area-inset-bottom));
+  z-index:10;
+}
+nav button{
+  background:transparent;
+  border:0;
+  color:#aaa;
+  padding:8px 5px;
+  font-size:12px;
+}
+nav button.active{color:#ff4b55}
+button.action{
+  background:linear-gradient(135deg,#ff5962,#d92332);
+  color:white;
+  border:0;
+  border-radius:12px;
+  padding:14px 20px;
+  font-weight:bold;
+  width:100%;
+  box-shadow:0 5px 18px #ff3b4533;
+}
+.status{
+  font-size:13px;
+  color:#ff9298;
+  margin-top:12px;
+  overflow-wrap:anywhere;
+}
+.task{padding:13px 0;border-bottom:1px solid #39393e}
+.task:last-child{border:0}
+.feature{
+  background:linear-gradient(135deg,#332024,#222225);
+  border:1px solid #573037;
+  border-radius:16px;
+  padding:17px;
+  margin-top:12px;
+}
+.feature-icon{font-size:30px;margin-bottom:8px}
+button:active{transform:scale(.97)}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🧟</div>
+  <h1>ZOMBIDROP</h1>
+  <div class="subtitle">ВЫЖИВАЙ • СОБИРАЙ • ПОБЕЖДАЙ</div>
+</header>
+
+<section id="home" class="page active">
+  <div class="balance">
+    <small>ТВОЙ БАЛАНС</small>
+    <div class="coins" id="coins">Загрузка...</div>
+    <div id="player">Проверяем Telegram...</div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>🎁 Ежедневный бонус</h2>
+    <p>Заходи каждый день, чтобы получать награды.</p>
+    <button class="action" onclick="soon()">ПОЛУЧИТЬ БОНУС</button>
+  </div>
+
+  <div class="card">
+    <h2>🎁 Кейсы</h2>
+    <p>Открывай кейсы и получай игровые награды.</p>
+    <div class="feature">
+      <div class="feature-icon">📦</div>
+      <b>Зомби-кейс</b>
+      <p>Скоро здесь появятся кейсы с наградами.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧟 Добро пожаловать!</h2>
+    <p>Собирай монеты, выполняй задания и приглашай друзей.</p>
+  </div>
+</section>
+
+<section id="tasks" class="page">
+  <div class="card">
+    <h2>📋 Задания</h2>
+    <div class="task">📢 Подписка на канал — скоро</div>
+    <div class="task">👥 Приглашение друзей — скоро</div>
+    <div class="task">🎁 Ежедневный вход — скоро</div>
+  </div>
+</section>
+
+<section id="friends" class="page">
+  <div class="card">
+    <h2>👥 Приглашай друзей</h2>
+    <p>Приглашай друзей в ZombiDrop. Реферальная система скоро появится.</p>
+    <button class="action" onclick="share()">ПРИГЛАСИТЬ ДРУГА</button>
+  </div>
+</section>
+
+<section id="rating" class="page">
+  <div class="card">
+    <h2>🏆 Рейтинг</h2>
+    <p>Здесь появится таблица лучших игроков.</p>
+  </div>
+</section>
+
+<section id="profile" class="page">
+  <div class="card">
+    <h2>👤 Профиль игрока</h2>
+    <p id="profileName">Загрузка профиля...</p>
+    <p id="profileId"></p>
+    <p id="profileReferrals"></p>
+  </div>
+</section>
+
+<nav>
+  <button class="active" onclick="go('home',this)">🏠<br>Главная</button>
+  <button onclick="go('tasks',this)">📋<br>Задания</button>
+  <button onclick="go('friends',this)">👥<br>Друзья</button>
+  <button onclick="go('rating',this)">🏆<br>Рейтинг</button>
+  <button onclick="go('profile',this)">👤<br>Профиль</button>
+</nav>
+
+<script>
+const tg = window.Telegram.WebApp;
+
+const API_URL =
+  "https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
+
+const PUBLIC_KEY =
+  "sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
+
+tg.ready();
+tg.expand();
+
+function go(page,button){
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const selected = document.getElementById(page);
+  if(selected) selected.classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(b=>{
+    b.classList.remove("active");
+  });
+
+  if(button) button.classList.add("active");
 }
 
-body {
-  margin: 0;
-  padding: 20px 16px 100px;
-  background: #171719;
-  color: #f4f4f4;
-  font-family: Arial, sans-serif;
+function soon(){
+  tg.showAlert("Эта возможность скоро появится!");
 }
 
-header {
-  text-align: center;
-  padding: 12px 0 25px;
+function share(){
+  const link =
+    "https://t.me/share/url?url=" +
+    encodeURIComponent("https://t.me/ZombiDropBot");
+
+  if(tg.initData){
+    tg.openTelegramLink(link);
+  }else{
+    window.open(link,"_blank");
+  }
 }
 
-.logo {
-  font-size: 62px;
-  filter: drop-shadow(0 0 15px #ff3b45);
+async function loadProfile(){
+  const status = document.getElementById("status");
+  const coins = document.getElementById("coins");
+  const player = document.getElementById("player");
+
+  if(!tg.initData){
+    coins.textContent = "— 🪙";
+    player.textContent = "Открой игру через Telegram";
+    status.textContent = "Запусти бота и открой Mini App.";
+    return;
+  }
+
+  try{
+    const response = await fetch(API_URL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "apikey":PUBLIC_KEY
+      },
+      body:JSON.stringify({
+        initData:tg.initData
+      })
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+      throw new Error(
+        result.details || result.error || "Ошибка сервера: "+response.status
+      );
+    }
+
+    if(!result.profile){
+      throw new Error("Профиль не получен");
+    }
+
+    const profile = result.profile;
+
+    coins.textContent =
+      Number(profile.coins).toLocaleString("ru-RU")+" 🪙";
+
+    const name =
+      profile.first_name || profile.username || profile.id;
+
+    player.textContent = "Игрок: "+name;
+
+    document.getElementById("profileName").textContent =
+      "Имя: "+name;
+
+    document.getElementById("profileId").textContent =
+      "ID: "+profile.id;
+
+    document.getElementById("profileReferrals").textContent =
+      "Приглашено друзей: "+profile.referrals;
+
+    status.textContent = "Аккаунт подключён ✓";
+
+  }catch(error){
+    coins.textContent = "— 🪙";
+    player.textContent = "Не удалось загрузить профиль";
+    status.textContent = error.message;
+    console.error("ZombiDrop:",error);
+  }
 }
 
-h1 {
-  color: #ff3b45;
-  letter-spacing: 4px;
-  margin: 8px;
-}
+loadProfile();
+</script>
 
-.subtitle {
-  color: #aaa;
-  font-size: 12px;
-  letter-spacing: 2px;
-}
-
-.balance,
-.card {
-  background: #222225;
-  border: 1px solid #39393e;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 15px;
-}
-
-.balance {
-  text-align: center;
-  background: linear-gradient(145deg, #482126, #211719);
-  border: 1px solid #713039;
-  box-shadow: 0 8px 30px #0005;
-}
-
-.balance small {
-  color: #ffb2b6;
-  letter-spacing: 2px;
-}
-
-.coins {
-  font-size: 42px;
-  font-weight: bold;
-  color: #ff5962;
-  margin: 15px;
-  text-shadow: 0 0 15px #ff3b4555;
-}
-
-h2 {
-  font-size: 19px;
-  margin: 0 0 14px;
-}
-
-p {
-  color: #c3c3c8;
-  line-height: 1.5;
-  font-size: 14px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #202024;
-  border-top: 1px solid #414146;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 3px calc(10px + env(safe-area-inset-bottom));
-}
-
-nav button {
-  background: transparent;
-  border: 0;
-  color: #aaa;
-  padding: 8px;
-  font-size: 12px;
-}
-
-nav button.active {
-  color: #ff4b55;
-}
-
-button.action {
-  background: linear-gradient(135deg, #ff5962, #d92332);
-  color: white;
-  border: 0;
-  border-radius: 12px;
-  padding: 14px 20px;
-  font-weight: bold;
-  width: 100%;
-  box-shadow: 0 5px 18px #ff3b4533;
-}
-
-.status {
-  font-size: 13px;
-  color: #ff9298;
-  margin-top: 12px;
-  overflow-wrap: anywhere;
-}
-
-.task {
-  padding: 13px 0;
-  border-bottom: 1px solid #39393e;
-}
-
-.task:last-child {
-  border: 0;
-}
+</body>
+</html>
