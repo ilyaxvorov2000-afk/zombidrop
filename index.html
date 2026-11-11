@@ -7,410 +7,274 @@
 <meta name="theme-color" content="#171719">
 <title>ZombiDrop 🧟</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;padding:20px 16px 100px;
-  background:#171719;color:#f4f4f4;
-  font-family:Arial,sans-serif;
-}
+body{margin:0;padding:20px 16px 100px;background:#171719;color:#f4f4f4;font-family:Arial,sans-serif}
 header{text-align:center;padding:12px 0 25px}
 .logo{font-size:65px;filter:drop-shadow(0 0 15px #ff3b45)}
 h1{color:#ff3b45;letter-spacing:4px;margin:8px;font-size:27px}
 .subtitle{color:#aaa;font-size:11px;letter-spacing:2px}
-.balance,.card{
-  background:#222225;border:1px solid #39393e;
-  border-radius:20px;padding:20px;margin-bottom:15px;
-}
-.balance{
-  text-align:center;
-  background:linear-gradient(145deg,#482126,#211719);
-  border:1px solid #713039;
-  box-shadow:0 8px 30px #0005;
-}
+.balance,.card{background:#222225;border:1px solid #39393e;border-radius:20px;padding:20px;margin-bottom:15px}
+.balance{text-align:center;background:linear-gradient(145deg,#482126,#211719);border:1px solid #713039;box-shadow:0 8px 30px #0005}
 .balance small{color:#ffb2b6;letter-spacing:2px}
-.coins{
-  font-size:42px;font-weight:bold;color:#ff5962;
-  margin:15px;text-shadow:0 0 15px #ff3b4555;
-}
+.coins{font-size:42px;font-weight:bold;color:#ff5962;margin:15px;text-shadow:0 0 15px #ff3b4555}
 h2{font-size:19px;margin:0 0 14px}
 p{color:#c3c3c8;line-height:1.5;font-size:14px}
 .page{display:none}
 .page.active{display:block}
-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  background:#202024;border-top:1px solid #414146;
-  display:flex;justify-content:space-around;
-  padding:10px 3px calc(10px + env(safe-area-inset-bottom));
-  z-index:10;
-}
-nav button{
-  background:transparent;border:0;color:#aaa;
-  padding:8px 5px;font-size:12px;
-}
+nav{position:fixed;bottom:0;left:0;right:0;background:#202024;border-top:1px solid #414146;display:flex;justify-content:space-around;padding:10px 3px calc(10px + env(safe-area-inset-bottom));z-index:10}
+nav button{background:transparent;border:0;color:#aaa;padding:8px 5px;font-size:12px}
 nav button.active{color:#ff4b55}
-button.action{
-  background:linear-gradient(135deg,#ff5962,#d92332);
-  color:white;border:0;border-radius:12px;
-  padding:14px 20px;font-weight:bold;width:100%;
-  box-shadow:0 5px 18px #ff3b4533;
-}
-button.action:disabled{opacity:.5;box-shadow:none}
-.status{
-  font-size:13px;color:#ff9298;margin-top:12px;
-  overflow-wrap:anywhere;
-}
-.task{padding:13px 0;border-bottom:1px solid #39393e}
-.task:last-child{border:0}
-.case{
-  background:linear-gradient(145deg,#302024,#222225);
-  border:1px solid #63323a;border-radius:18px;
-  padding:17px;margin:14px 0;
-  transition:transform .2s,border-color .2s;
-}
-.case.opening{
-  animation:shake .16s infinite alternate;
-  border-color:#ff5962;
-  box-shadow:0 0 22px #ff3b4544;
-}
-.case-icon{
-  font-size:48px;text-align:center;
-  padding:10px 0;
-  filter:drop-shadow(0 0 12px #ff3b4555);
-}
-.case h3{text-align:center;margin:8px 0;color:#fff}
-.case p{text-align:center;margin:8px 0 15px}
+button.action{background:linear-gradient(135deg,#ff5962,#d92332);color:white;border:0;border-radius:12px;padding:14px 20px;font-weight:bold;width:100%;box-shadow:0 5px 18px #ff3b4533}
+button.action:disabled{opacity:.5}
+.status{font-size:13px;color:#ff9298;margin-top:12px;overflow-wrap:anywhere}
+.case{background:linear-gradient(145deg,#302024,#222225);border:1px solid #63323a;border-radius:18px;padding:17px;margin:14px 0}
+.case-icon{font-size:48px;text-align:center;padding:10px}
+.case h3{text-align:center;margin:8px}
+.case p{text-align:center}
 .case-price{text-align:center;color:#ff8c94;font-weight:bold;margin-bottom:12px}
-.case-note{text-align:center;font-size:11px;color:#888;margin-top:9px}
-.feature{
-  background:linear-gradient(135deg,#332024,#222225);
-  border:1px solid #573037;border-radius:16px;
-  padding:17px;margin-top:12px;
-}
-.feature-icon{font-size:30px;margin-bottom:8px}
-button:active{transform:scale(.97)}
-#resultModal{
-  display:none;position:fixed;inset:0;z-index:30;
-  background:#000c;align-items:center;justify-content:center;
-  padding:25px;
-}
-#resultModal.show{display:flex}
-.result-box{
-  width:100%;max-width:340px;text-align:center;
-  background:linear-gradient(145deg,#392025,#202024);
-  border:1px solid #ff5962;border-radius:22px;
-  padding:28px 20px;box-shadow:0 0 40px #ff3b4544;
-  animation:appear .35s ease;
-}
-.result-box .gift{font-size:65px}
-.result-box h2{color:#ff5962;margin:15px 0}
-.reward-number{font-size:36px;font-weight:bold;color:#fff;margin:18px}
-@keyframes shake{
-  from{transform:rotate(-1deg) scale(1)}
-  to{transform:rotate(1deg) scale(1.02)}
-}
-@keyframes appear{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
+.game{background:linear-gradient(145deg,#302024,#222225);border:1px solid #63323a;border-radius:18px;padding:18px;margin:14px 0;text-align:center}
+.numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}
+.number{height:52px;border-radius:12px;border:1px solid #73343d;background:#292125;color:white;font-size:20px;font-weight:bold}
+.number.selected{background:#ff3b45;border-color:#ff8188;box-shadow:0 0 15px #ff3b4577}
+.number:disabled{opacity:.5}
+.game-result{min-height:48px;margin:15px 0;color:#ff9298;font-weight:bold;line-height:1.5}
+.feature{background:linear-gradient(135deg,#332024,#222225);border:1px solid #573037;border-radius:16px;padding:17px;margin-top:12px}
+@keyframes shake{0%{transform:rotate(-2deg)}100%{transform:rotate(2deg)}}
+.rolling{animation:shake .15s infinite alternate}
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="logo">🧟</div>
-  <h1>ZOMBIDROP</h1>
-  <div class="subtitle">ВЫЖИВАЙ • СОБИРАЙ • ПОБЕЖДАЙ</div>
+<div class="logo">🧟</div>
+<h1>ZOMBIDROP</h1>
+<div class="subtitle">ВЫЖИВАЙ • СОБИРАЙ • ПОБЕЖДАЙ</div>
 </header>
 
 <section id="home" class="page active">
-  <div class="balance">
-    <small>ТВОЙ БАЛАНС</small>
-    <div class="coins" id="coins">Загрузка...</div>
-    <div id="player">Проверяем Telegram...</div>
-    <div class="status" id="status"></div>
-  </div>
+<div class="balance">
+<small>ТВОЙ БАЛАНС</small>
+<div class="coins" id="coins">Загрузка...</div>
+<div id="player">Проверяем Telegram...</div>
+<div class="status" id="status"></div>
+</div>
+<div class="card">
+<h2>🎁 Кейсы ZombiDrop</h2>
+<p>Открывай кейсы и собирай игровые монеты!</p>
+<div class="case">
+<div class="case-icon">🎁</div><h3>Ежедневный кейс</h3>
+<p>Бесплатная награда каждый день.</p>
+<div class="case-price">БЕСПЛАТНО</div>
+<button class="action" id="btn-daily" onclick="openCase('daily')">ОТКРЫТЬ КЕЙС</button>
+</div>
+<div class="case">
+<div class="case-icon">📦</div><h3>Обычный кейс</h3>
+<p>Награды от 20 до 250 монет.</p>
+<div class="case-price">🪙 100 МОНЕТ</div>
+<button class="action" id="btn-basic" onclick="openCase('basic')">ОТКРЫТЬ КЕЙС</button>
+</div>
+<div class="case">
+<div class="case-icon">👑</div><h3>Элитный кейс</h3>
+<p>Крупные игровые награды!</p>
+<div class="case-price">🪙 500 МОНЕТ</div>
+<button class="action" id="btn-premium" onclick="openCase('premium')">ОТКРЫТЬ КЕЙС</button>
+</div>
+<div class="status" id="caseStatus"></div>
+</div>
+</section>
 
-  <div class="card">
-    <h2>🎁 Кейсы ZombiDrop</h2>
-    <p>Открывай кейсы, испытывай удачу и собирай игровые монеты!</p>
-
-    <div class="case" id="case-daily">
-      <div class="case-icon">🎁</div>
-      <h3>Ежедневный кейс</h3>
-      <p>Бесплатная награда каждый день.</p>
-      <div class="case-price">БЕСПЛАТНО</div>
-      <button class="action" id="btn-daily" onclick="openCase('daily')">
-        ОТКРЫТЬ КЕЙС
-      </button>
-      <div class="case-note">Доступен один раз в день</div>
-    </div>
-
-    <div class="case" id="case-basic">
-      <div class="case-icon">📦</div>
-      <h3>Обычный кейс</h3>
-      <p>Содержит награды от 20 до 250 монет.</p>
-      <div class="case-price">🪙 100 МОНЕТ</div>
-      <button class="action" id="btn-basic" onclick="openCase('basic')">
-        ОТКРЫТЬ КЕЙС
-      </button>
-    </div>
-
-    <div class="case" id="case-premium">
-      <div class="case-icon">👑</div>
-      <h3>Элитный кейс</h3>
-      <p>Самые крупные игровые награды!</p>
-      <div class="case-price">🪙 500 МОНЕТ</div>
-      <button class="action" id="btn-premium" onclick="openCase('premium')">
-        ОТКРЫТЬ КЕЙС
-      </button>
-    </div>
-
-    <div class="status" id="caseStatus"></div>
-  </div>
-
-  <div class="card">
-    <h2>🧟 Добро пожаловать!</h2>
-    <p>Собирай монеты, открывай кейсы, выполняй задания и приглашай друзей.</p>
-  </div>
+<section id="games" class="page">
+<div class="card">
+<h2>🎮 ИГРОВАЯ ЗОНА</h2>
+<p>Проверь свою удачу и заработай виртуальные монеты!</p>
+<div class="game" id="guessGame">
+<div style="font-size:45px">🔢</div>
+<h2>Угадай число</h2>
+<p>Компьютер загадал число от 1 до 5. Угадай его и получи 50 монет!</p>
+<div class="numbers">
+<button class="number" onclick="playGuess(1)">1</button>
+<button class="number" onclick="playGuess(2)">2</button>
+<button class="number" onclick="playGuess(3)">3</button>
+<button class="number" onclick="playGuess(4)">4</button>
+<button class="number" onclick="playGuess(5)">5</button>
+</div>
+<div class="game-result" id="guessResult">Выбери число!</div>
+<div style="color:#aaa;font-size:12px">Одна бесплатная попытка в день</div>
+</div>
+</div>
 </section>
 
 <section id="tasks" class="page">
-  <div class="card">
-    <h2>📋 Задания</h2>
-    <div class="task">📢 Подписка на канал — скоро</div>
-    <div class="task">👥 Приглашение друзей — скоро</div>
-    <div class="task">🎁 Ежедневный вход — скоро</div>
-  </div>
+<div class="card">
+<h2>📋 Задания</h2>
+<p>📢 Подписка на канал — скоро</p>
+<p>👥 Приглашение друзей — скоро</p>
+<p>🎁 Ежедневный вход — скоро</p>
+</div>
 </section>
 
 <section id="friends" class="page">
-  <div class="card">
-    <h2>👥 Приглашай друзей</h2>
-    <p>Приглашай друзей в ZombiDrop. Реферальная система скоро появится.</p>
-    <button class="action" onclick="share()">ПРИГЛАСИТЬ ДРУГА</button>
-  </div>
+<div class="card">
+<h2>👥 Приглашай друзей</h2>
+<p>Приглашай друзей в ZombiDrop. Реферальная система скоро появится.</p>
+<button class="action" onclick="share()">ПРИГЛАСИТЬ ДРУГА</button>
+</div>
 </section>
 
 <section id="rating" class="page">
-  <div class="card">
-    <h2>🏆 Рейтинг</h2>
-    <p>Здесь появится таблица лучших игроков.</p>
-  </div>
+<div class="card"><h2>🏆 Рейтинг</h2><p>Здесь появится таблица лучших игроков.</p></div>
 </section>
 
 <section id="profile" class="page">
-  <div class="card">
-    <h2>👤 Профиль игрока</h2>
-    <p id="profileName">Загрузка профиля...</p>
-    <p id="profileId"></p>
-    <p id="profileReferrals"></p>
-  </div>
+<div class="card">
+<h2>👤 Профиль игрока</h2>
+<p id="profileName">Загрузка...</p>
+<p id="profileId"></p>
+<p id="profileReferrals"></p>
+</div>
 </section>
 
 <nav>
-  <button class="active" onclick="go('home',this)">🏠<br>Главная</button>
-  <button onclick="go('tasks',this)">📋<br>Задания</button>
-  <button onclick="go('friends',this)">👥<br>Друзья</button>
-  <button onclick="go('rating',this)">🏆<br>Рейтинг</button>
-  <button onclick="go('profile',this)">👤<br>Профиль</button>
+<button class="active" onclick="go('home',this)">🏠<br>Главная</button>
+<button onclick="go('games',this)">🎮<br>Игры</button>
+<button onclick="go('tasks',this)">📋<br>Задания</button>
+<button onclick="go('friends',this)">👥<br>Друзья</button>
+<button onclick="go('profile',this)">👤<br>Профиль</button>
 </nav>
 
-<div id="resultModal">
-  <div class="result-box">
-    <div class="gift">🎉</div>
-    <h2>КЕЙС ОТКРЫТ!</h2>
-    <p id="resultCase">Твоя награда:</p>
-    <div class="reward-number" id="resultReward">+0 🪙</div>
-    <p>Монеты начислены на твой баланс.</p>
-    <button class="action" onclick="closeResult()">ОТЛИЧНО!</button>
-  </div>
+<div id="resultModal" style="display:none;position:fixed;inset:0;background:#000c;z-index:30;align-items:center;justify-content:center;padding:25px">
+<div style="width:100%;max-width:340px;text-align:center;background:#302024;border:1px solid #ff5962;border-radius:22px;padding:28px">
+<div style="font-size:60px">🎉</div>
+<h2 style="color:#ff5962">КЕЙС ОТКРЫТ!</h2>
+<p id="resultCase"></p>
+<div id="resultReward" style="font-size:36px;font-weight:bold;margin:20px">+0 🪙</div>
+<button class="action" onclick="closeResult()">ОТЛИЧНО!</button>
+</div>
 </div>
 
 <script>
-const tg = window.Telegram.WebApp;
-
-const API_URL =
-  "https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
-
-const PUBLIC_KEY =
-  "sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
-
-let profileData = null;
-let opening = false;
-
+const tg=window.Telegram.WebApp;
+const API_URL="https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
+const PUBLIC_KEY="sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
+let opening=false;
 tg.ready();
 tg.expand();
 
 function go(page,button){
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-  });
-
-  const selected = document.getElementById(page);
-  if(selected) selected.classList.add("active");
-
-  document.querySelectorAll("nav button").forEach(b=>{
-    b.classList.remove("active");
-  });
-
-  if(button) button.classList.add("active");
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(page).classList.add("active");
+document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+if(button)button.classList.add("active");
 }
 
 function share(){
-  const link =
-    "https://t.me/share/url?url=" +
-    encodeURIComponent("https://t.me/ZombiDropBot");
+const link="https://t.me/share/url?url="+encodeURIComponent("https://t.me/ZombiDropBot");
+if(tg.initData)tg.openTelegramLink(link);else window.open(link,"_blank");
+}
 
-  if(tg.initData){
-    tg.openTelegramLink(link);
-  }else{
-    window.open(link,"_blank");
-  }
+async function apiRequest(payload={}){
+const response=await fetch(API_URL,{
+method:"POST",
+headers:{"Content-Type":"application/json","apikey":PUBLIC_KEY},
+body:JSON.stringify({initData:tg.initData,...payload})
+});
+const data=await response.json();
+if(!response.ok)throw new Error(data.details||data.error||"Ошибка сервера");
+return data;
 }
 
 function updateProfile(profile){
-  profileData = profile;
-
-  document.getElementById("coins").textContent =
-    Number(profile.coins).toLocaleString("ru-RU")+" 🪙";
-
-  const name =
-    profile.first_name || profile.username || profile.id;
-
-  document.getElementById("player").textContent =
-    "Игрок: "+name;
-
-  document.getElementById("profileName").textContent =
-    "Имя: "+name;
-
-  document.getElementById("profileId").textContent =
-    "ID: "+profile.id;
-
-  document.getElementById("profileReferrals").textContent =
-    "Приглашено друзей: "+profile.referrals;
-
-  document.getElementById("status").textContent =
-    "Аккаунт подключён ✓";
-}
-
-async function apiRequest(payload){
-  const response = await fetch(API_URL,{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "apikey":PUBLIC_KEY
-    },
-    body:JSON.stringify({
-      initData:tg.initData,
-      ...payload
-    })
-  });
-
-  const result = await response.json();
-
-  if(!response.ok){
-    throw new Error(result.details || result.error || "Ошибка сервера");
-  }
-
-  return result;
+document.getElementById("coins").textContent=Number(profile.coins).toLocaleString("ru-RU")+" 🪙";
+const name=profile.first_name||profile.username||profile.id;
+document.getElementById("player").textContent="Игрок: "+name;
+document.getElementById("profileName").textContent="Имя: "+name;
+document.getElementById("profileId").textContent="ID: "+profile.id;
+document.getElementById("profileReferrals").textContent="Приглашено друзей: "+profile.referrals;
+document.getElementById("status").textContent="Аккаунт подключён ✓";
 }
 
 async function loadProfile(){
-  const status = document.getElementById("status");
-
-  if(!tg.initData){
-    document.getElementById("coins").textContent = "— 🪙";
-    document.getElementById("player").textContent =
-      "Открой игру через Telegram";
-    status.textContent = "Запусти бота и открой Mini App.";
-    return;
-  }
-
-  try{
-    const result = await apiRequest({});
-
-    if(!result.profile){
-      throw new Error("Профиль не получен");
-    }
-
-    updateProfile(result.profile);
-
-  }catch(error){
-    document.getElementById("coins").textContent = "— 🪙";
-    document.getElementById("player").textContent =
-      "Не удалось загрузить профиль";
-    status.textContent = error.message;
-    console.error("ZombiDrop:",error);
-  }
+if(!tg.initData){
+document.getElementById("coins").textContent="— 🪙";
+document.getElementById("player").textContent="Открой игру через Telegram";
+return;
+}
+try{
+const result=await apiRequest();
+if(!result.profile)throw new Error("Профиль не получен");
+updateProfile(result.profile);
+}catch(error){
+document.getElementById("status").textContent=error.message;
+}
 }
 
 async function openCase(caseId){
-  if(opening) return;
-
-  if(!tg.initData){
-    tg.showAlert("Открой ZombiDrop через Telegram.");
-    return;
-  }
-
-  const button = document.getElementById("btn-"+caseId);
-  const caseCard = document.getElementById("case-"+caseId);
-  const caseStatus = document.getElementById("caseStatus");
-
-  opening = true;
-  button.disabled = true;
-  button.textContent = "ОТКРЫВАЕМ...";
-  caseCard.classList.add("opening");
-  caseStatus.textContent = "🧟 Зомби-кейс открывается...";
-
-  try{
-    const result = await apiRequest({
-      action:"open_case",
-      caseId:caseId
-    });
-
-    if(!result.result || !result.result.success || !result.profile){
-      throw new Error("Сервер не подтвердил открытие кейса.");
-    }
-
-    await new Promise(resolve=>setTimeout(resolve,1000));
-
-    updateProfile(result.profile);
-
-    const reward = Number(result.result.reward);
-    const caseTitle = result.result.case || "Кейс";
-
-    document.getElementById("resultCase").textContent =
-      caseTitle+" — твоя награда:";
-
-    document.getElementById("resultReward").textContent =
-      "+"+reward.toLocaleString("ru-RU")+" 🪙";
-
-    document.getElementById("resultModal").classList.add("show");
-
-    caseStatus.textContent = "Кейс успешно открыт!";
-
-  }catch(error){
-    caseStatus.textContent = "❌ "+error.message;
-    tg.showAlert(error.message);
-    console.error("Case error:",error);
-
-  }finally{
-    opening = false;
-    caseCard.classList.remove("opening");
-    button.disabled = false;
-    button.textContent = "ОТКРЫТЬ КЕЙС";
-  }
+if(opening)return;
+if(!tg.initData){tg.showAlert("Открой игру через Telegram");return}
+opening=true;
+const button=document.getElementById("btn-"+caseId);
+button.disabled=true;
+button.textContent="ОТКРЫВАЕМ...";
+document.getElementById("caseStatus").textContent="🧟 Кейс открывается...";
+try{
+const result=await apiRequest({action:"open_case",caseId});
+if(!result.result?.success||!result.profile)throw new Error("Не удалось подтвердить открытие");
+await new Promise(r=>setTimeout(r,900));
+updateProfile(result.profile);
+document.getElementById("resultCase").textContent=result.result.case+" — твоя награда:";
+document.getElementById("resultReward").textContent="+"+Number(result.result.reward).toLocaleString("ru-RU")+" 🪙";
+document.getElementById("resultModal").style.display="flex";
+document.getElementById("caseStatus").textContent="Кейс успешно открыт!";
+}catch(error){
+document.getElementById("caseStatus").textContent="❌ "+error.message;
+tg.showAlert(error.message);
+}finally{
+opening=false;
+button.disabled=false;
+button.textContent="ОТКРЫТЬ КЕЙС";
+}
 }
 
 function closeResult(){
-  document.getElementById("resultModal").classList.remove("show");
+document.getElementById("resultModal").style.display="none";
+}
+
+async function playGuess(number){
+if(opening)return;
+if(!tg.initData){tg.showAlert("Открой игру через Telegram");return}
+opening=true;
+const buttons=document.querySelectorAll(".number");
+const resultBox=document.getElementById("guessResult");
+buttons.forEach(b=>b.disabled=true);
+buttons[number-1].classList.add("selected");
+resultBox.textContent="🎲 Проверяем твою удачу...";
+document.getElementById("guessGame").classList.add("rolling");
+try{
+const result=await apiRequest({action:"play_guess",guess:number});
+if(!result.result||!result.profile)throw new Error("Нет ответа от сервера");
+await new Promise(r=>setTimeout(r,800));
+document.getElementById("guessGame").classList.remove("rolling");
+updateProfile(result.profile);
+if(result.result.won){
+resultBox.textContent="🎉 ПОБЕДА! Выпало число "+result.result.number+". Ты получил +"+result.result.reward+" 🪙";
+if(tg.HapticFeedback)tg.HapticFeedback.notificationOccurred("success");
+}else{
+resultBox.textContent="😢 Не угадал! Было загадано число "+result.result.number+". Попробуй завтра!";
+if(tg.HapticFeedback)tg.HapticFeedback.notificationOccurred("error");
+}
+}catch(error){
+document.getElementById("guessGame").classList.remove("rolling");
+resultBox.textContent="❌ "+error.message;
+tg.showAlert(error.message);
+buttons.forEach(b=>b.disabled=false);
+buttons.forEach(b=>b.classList.remove("selected"));
+}finally{
+opening=false;
+}
 }
 
 loadProfile();
 </script>
-
 </body>
 </html>
