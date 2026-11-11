@@ -3,275 +3,325 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#171719">
-<title>ZombiDrop 🧟</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#151515">
+<title>ZombiDrop</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:20px 16px 100px;background:#171719;color:#f4f4f4;font-family:Arial,sans-serif}
-header{text-align:center;padding:12px 0 25px}
-.logo{font-size:65px;filter:drop-shadow(0 0 15px #ff3b45)}
-h1{color:#ff3b45;letter-spacing:4px;margin:8px;font-size:27px}
-.subtitle{color:#aaa;font-size:11px;letter-spacing:2px}
-.balance,.card{background:#222225;border:1px solid #39393e;border-radius:20px;padding:20px;margin-bottom:15px}
-.balance{text-align:center;background:linear-gradient(145deg,#482126,#211719);border:1px solid #713039;box-shadow:0 8px 30px #0005}
-.balance small{color:#ffb2b6;letter-spacing:2px}
-.coins{font-size:42px;font-weight:bold;color:#ff5962;margin:15px;text-shadow:0 0 15px #ff3b4555}
-h2{font-size:19px;margin:0 0 14px}
-p{color:#c3c3c8;line-height:1.5;font-size:14px}
+body{margin:0;background:#151515;color:#fff;font-family:Arial,sans-serif;padding-bottom:90px}
+header{padding:22px 18px 12px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:900;color:#ff3947}
+.logo span{color:#fff}
+.balance{background:#292929;border:1px solid #414141;border-radius:14px;padding:10px 13px;font-weight:bold;color:#ff5963}
+.container{padding:12px 16px}
+h2{font-size:21px;margin:12px 0}
+.subtitle{color:#999;font-size:13px;margin-bottom:18px}
+.card{background:#222;border:1px solid #353535;border-radius:17px;padding:17px;margin-bottom:13px}
+.case-icon{font-size:43px;margin-bottom:8px}
+.card-title{font-weight:bold;font-size:17px}
+.card-info{color:#aaa;font-size:13px;margin:7px 0 13px}
+button{border:0;border-radius:12px;background:#ff3947;color:white;font-weight:bold;font-size:15px;padding:13px;width:100%;cursor:pointer}
+button:disabled{opacity:.4}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.game{background:#222;border:1px solid #383838;border-radius:17px;padding:16px;text-align:center}
+.game-icon{font-size:39px;margin-bottom:10px}
+.game-name{font-weight:bold;margin-bottom:7px}
+.game-desc{font-size:12px;color:#aaa;min-height:30px;margin-bottom:12px}
 .page{display:none}
 .page.active{display:block}
-nav{position:fixed;bottom:0;left:0;right:0;background:#202024;border-top:1px solid #414146;display:flex;justify-content:space-around;padding:10px 3px calc(10px + env(safe-area-inset-bottom));z-index:10}
-nav button{background:transparent;border:0;color:#aaa;padding:8px 5px;font-size:12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#202020;border-top:1px solid #393939;display:flex;justify-content:space-around;padding:10px 2px calc(10px + env(safe-area-inset-bottom));z-index:10}
+nav button{background:transparent;color:#999;padding:7px 2px;font-size:11px;width:20%}
 nav button.active{color:#ff4b55}
-button.action{background:linear-gradient(135deg,#ff5962,#d92332);color:white;border:0;border-radius:12px;padding:14px 20px;font-weight:bold;width:100%;box-shadow:0 5px 18px #ff3b4533}
-button.action:disabled{opacity:.5}
-.status{font-size:13px;color:#ff9298;margin-top:12px;overflow-wrap:anywhere}
-.case{background:linear-gradient(145deg,#302024,#222225);border:1px solid #63323a;border-radius:18px;padding:17px;margin:14px 0}
-.case-icon{font-size:48px;text-align:center;padding:10px}
-.case h3{text-align:center;margin:8px}
-.case p{text-align:center}
-.case-price{text-align:center;color:#ff8c94;font-weight:bold;margin-bottom:12px}
-.game{background:linear-gradient(145deg,#302024,#222225);border:1px solid #63323a;border-radius:18px;padding:18px;margin:14px 0;text-align:center}
-.numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}
-.number{height:52px;border-radius:12px;border:1px solid #73343d;background:#292125;color:white;font-size:20px;font-weight:bold}
-.number.selected{background:#ff3b45;border-color:#ff8188;box-shadow:0 0 15px #ff3b4577}
-.number:disabled{opacity:.5}
-.game-result{min-height:48px;margin:15px 0;color:#ff9298;font-weight:bold;line-height:1.5}
-.feature{background:linear-gradient(135deg,#332024,#222225);border:1px solid #573037;border-radius:16px;padding:17px;margin-top:12px}
-@keyframes shake{0%{transform:rotate(-2deg)}100%{transform:rotate(2deg)}}
-.rolling{animation:shake .15s infinite alternate}
+nav span{display:block;font-size:20px;margin-bottom:4px}
+.result{font-size:23px;text-align:center;padding:18px;color:#ff5963;font-weight:bold}
+.numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+.numbers button{padding:15px 0;font-size:18px}
+.coins{color:#ff5963;font-weight:bold}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:#242424;border:1px solid #444;border-radius:20px;padding:25px;width:100%;max-width:340px;text-align:center}
+.big{font-size:48px;margin:12px}
+.muted{color:#999;font-size:13px}
+.profile-icon{width:65px;height:65px;border-radius:50%;background:#ff3947;display:grid;place-items:center;font-size:29px;margin:15px auto}
 </style>
 </head>
 <body>
 
 <header>
-<div class="logo">🧟</div>
-<h1>ZOMBIDROP</h1>
-<div class="subtitle">ВЫЖИВАЙ • СОБИРАЙ • ПОБЕЖДАЙ</div>
+<div class="logo">ZOMBI<span>DROP</span> 🧟</div>
+<div class="balance">🪙 <span id="coins">0</span></div>
 </header>
 
+<div class="container">
+
 <section id="home" class="page active">
-<div class="balance">
-<small>ТВОЙ БАЛАНС</small>
-<div class="coins" id="coins">Загрузка...</div>
-<div id="player">Проверяем Telegram...</div>
-<div class="status" id="status"></div>
+<h2>Главная</h2>
+<div class="subtitle">Добро пожаловать в ZombiDrop!</div>
+<div class="card">
+<div class="case-icon">🎁</div>
+<div class="card-title">Открывай кейсы</div>
+<div class="card-info">Получи игровые монеты и забирай награды.</div>
+<button onclick="go('cases')">Открыть кейсы</button>
 </div>
 <div class="card">
-<h2>🎁 Кейсы ZombiDrop</h2>
-<p>Открывай кейсы и собирай игровые монеты!</p>
-<div class="case">
-<div class="case-icon">🎁</div><h3>Ежедневный кейс</h3>
-<p>Бесплатная награда каждый день.</p>
-<div class="case-price">БЕСПЛАТНО</div>
-<button class="action" id="btn-daily" onclick="openCase('daily')">ОТКРЫТЬ КЕЙС</button>
+<div class="case-icon">🎮</div>
+<div class="card-title">Играй и зарабатывай</div>
+<div class="card-info">Проверь удачу в мини-играх.</div>
+<button onclick="go('games')">Перейти к играм</button>
 </div>
-<div class="case">
-<div class="case-icon">📦</div><h3>Обычный кейс</h3>
-<p>Награды от 20 до 250 монет.</p>
-<div class="case-price">🪙 100 МОНЕТ</div>
-<button class="action" id="btn-basic" onclick="openCase('basic')">ОТКРЫТЬ КЕЙС</button>
+</section>
+
+<section id="cases" class="page">
+<h2>🎁 Кейсы</h2>
+<div class="subtitle">Открывай кейсы и получай монеты.</div>
+<div class="card">
+<div class="case-icon">🎁</div>
+<div class="card-title">Ежедневный кейс</div>
+<div class="card-info">Бесплатно · 1 раз в день</div>
+<button onclick="openCase('daily')">Открыть бесплатно</button>
 </div>
-<div class="case">
-<div class="case-icon">👑</div><h3>Элитный кейс</h3>
-<p>Крупные игровые награды!</p>
-<div class="case-price">🪙 500 МОНЕТ</div>
-<button class="action" id="btn-premium" onclick="openCase('premium')">ОТКРЫТЬ КЕЙС</button>
+<div class="card">
+<div class="case-icon">📦</div>
+<div class="card-title">Обычный кейс</div>
+<div class="card-info">Стоимость: 100 монет</div>
+<button onclick="openCase('basic')">Открыть за 100 🪙</button>
 </div>
-<div class="status" id="caseStatus"></div>
+<div class="card">
+<div class="case-icon">💎</div>
+<div class="card-title">Элитный кейс</div>
+<div class="card-info">Стоимость: 500 монет</div>
+<button onclick="openCase('premium')">Открыть за 500 🪙</button>
 </div>
 </section>
 
 <section id="games" class="page">
-<div class="card">
-<h2>🎮 ИГРОВАЯ ЗОНА</h2>
-<p>Проверь свою удачу и заработай виртуальные монеты!</p>
-<div class="game" id="guessGame">
-<div style="font-size:45px">🔢</div>
-<h2>Угадай число</h2>
-<p>Компьютер загадал число от 1 до 5. Угадай его и получи 50 монет!</p>
+<h2>🎮 Мини-игры</h2>
+<div class="subtitle">Выбирай игру. Попытки бесплатные, награды виртуальные.</div>
+<div class="grid">
+<div class="game">
+<div class="game-icon">🎯</div>
+<div class="game-name">Угадай число</div>
+<div class="game-desc">Угадай число от 1 до 5</div>
+<button onclick="go('guess')">Играть</button>
+</div>
+<div class="game">
+<div class="game-icon">🪙</div>
+<div class="game-name">Орёл или решка</div>
+<div class="game-desc">Угадай сторону монеты</div>
+<button onclick="go('coinflip')">Играть</button>
+</div>
+<div class="game">
+<div class="game-icon">🎰</div>
+<div class="game-name">Слоты</div>
+<div class="game-desc">Собери три одинаковых символа</div>
+<button onclick="go('slots')">Играть</button>
+</div>
+</div>
+</section>
+
+<section id="guess" class="page">
+<h2>🎯 Угадай число</h2>
+<div class="subtitle">Выбери число от 1 до 5. Награда за победу — 50 монет.</div>
 <div class="numbers">
-<button class="number" onclick="playGuess(1)">1</button>
-<button class="number" onclick="playGuess(2)">2</button>
-<button class="number" onclick="playGuess(3)">3</button>
-<button class="number" onclick="playGuess(4)">4</button>
-<button class="number" onclick="playGuess(5)">5</button>
+<button onclick="playGuess(1)">1</button>
+<button onclick="playGuess(2)">2</button>
+<button onclick="playGuess(3)">3</button>
+<button onclick="playGuess(4)">4</button>
+<button onclick="playGuess(5)">5</button>
 </div>
-<div class="game-result" id="guessResult">Выбери число!</div>
-<div style="color:#aaa;font-size:12px">Одна бесплатная попытка в день</div>
-</div>
-</div>
+<div id="guessResult" class="result">Удачи!</div>
+<button class="secondary" onclick="go('games')">Назад к играм</button>
 </section>
 
-<section id="tasks" class="page">
+<section id="coinflip" class="page">
+<h2>🪙 Орёл или решка</h2>
+<div class="subtitle">Угадай результат броска. Победа — 40 монет.</div>
+<div class="big" id="coinVisual">🪙</div>
+<div class="grid">
+<button onclick="playMini('coinflip','орёл')">🦅 Орёл</button>
+<button onclick="playMini('coinflip','решка')">🌟 Решка</button>
+</div>
+<div id="coinResult" class="result">Выбери сторону!</div>
+<button onclick="go('games')">Назад к играм</button>
+</section>
+
+<section id="slots" class="page">
+<h2>🎰 Слоты</h2>
+<div class="subtitle">Три одинаковых символа принесут награду.</div>
 <div class="card">
-<h2>📋 Задания</h2>
-<p>📢 Подписка на канал — скоро</p>
-<p>👥 Приглашение друзей — скоро</p>
-<p>🎁 Ежедневный вход — скоро</p>
+<div class="big" id="slotVisual">❔ ❔ ❔</div>
+<div class="muted">🍒 — 30 · 🍋 — 50 · 🔔 — 100 · 💎 — 250</div>
 </div>
-</section>
-
-<section id="friends" class="page">
-<div class="card">
-<h2>👥 Приглашай друзей</h2>
-<p>Приглашай друзей в ZombiDrop. Реферальная система скоро появится.</p>
-<button class="action" onclick="share()">ПРИГЛАСИТЬ ДРУГА</button>
-</div>
-</section>
-
-<section id="rating" class="page">
-<div class="card"><h2>🏆 Рейтинг</h2><p>Здесь появится таблица лучших игроков.</p></div>
+<button onclick="playMini('slots','')">Крутить бесплатно</button>
+<div id="slotsResult" class="result">Удачи!</div>
+<button onclick="go('games')">Назад к играм</button>
 </section>
 
 <section id="profile" class="page">
-<div class="card">
-<h2>👤 Профиль игрока</h2>
-<p id="profileName">Загрузка...</p>
-<p id="profileId"></p>
-<p id="profileReferrals"></p>
+<h2>👤 Профиль</h2>
+<div class="card" style="text-align:center">
+<div class="profile-icon">👤</div>
+<div class="card-title" id="username">Игрок</div>
+<div class="card-info">Твой баланс</div>
+<div class="result"><span id="profileCoins">0</span> 🪙</div>
 </div>
 </section>
 
+</div>
+
 <nav>
-<button class="active" onclick="go('home',this)">🏠<br>Главная</button>
-<button onclick="go('games',this)">🎮<br>Игры</button>
-<button onclick="go('tasks',this)">📋<br>Задания</button>
-<button onclick="go('friends',this)">👥<br>Друзья</button>
-<button onclick="go('profile',this)">👤<br>Профиль</button>
+<button class="active" onclick="go('home',this)"><span>🏠</span>Главная</button>
+<button onclick="go('cases',this)"><span>🎁</span>Кейсы</button>
+<button onclick="go('games',this)"><span>🎮</span>Игры</button>
+<button onclick="go('profile',this)"><span>👤</span>Профиль</button>
 </nav>
 
-<div id="resultModal" style="display:none;position:fixed;inset:0;background:#000c;z-index:30;align-items:center;justify-content:center;padding:25px">
-<div style="width:100%;max-width:340px;text-align:center;background:#302024;border:1px solid #ff5962;border-radius:22px;padding:28px">
-<div style="font-size:60px">🎉</div>
-<h2 style="color:#ff5962">КЕЙС ОТКРЫТ!</h2>
-<p id="resultCase"></p>
-<div id="resultReward" style="font-size:36px;font-weight:bold;margin:20px">+0 🪙</div>
-<button class="action" onclick="closeResult()">ОТЛИЧНО!</button>
+<div class="modal" id="modal">
+<div class="modal-box">
+<div class="big" id="modalIcon">🎉</div>
+<h2 id="modalTitle">Поздравляем!</h2>
+<div class="result" id="modalText"></div>
+<button onclick="closeModal()">Продолжить</button>
 </div>
 </div>
 
 <script>
-const tg=window.Telegram.WebApp;
-const API_URL="https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
-const PUBLIC_KEY="sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
-let opening=false;
-tg.ready();
-tg.expand();
+const tg = window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+
+const API_URL = "https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
+const PUBLIC_KEY = "sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
+
+let currentProfile = null;
+let busy = false;
 
 function go(page,button){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.getElementById(page).classList.add("active");
-document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-if(button)button.classList.add("active");
-}
-
-function share(){
-const link="https://t.me/share/url?url="+encodeURIComponent("https://t.me/ZombiDropBot");
-if(tg.initData)tg.openTelegramLink(link);else window.open(link,"_blank");
-}
-
-async function apiRequest(payload={}){
-const response=await fetch(API_URL,{
-method:"POST",
-headers:{"Content-Type":"application/json","apikey":PUBLIC_KEY},
-body:JSON.stringify({initData:tg.initData,...payload})
-});
-const data=await response.json();
-if(!response.ok)throw new Error(data.details||data.error||"Ошибка сервера");
-return data;
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(page)?.classList.add('active');
+ if(button){
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+ } else {
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ }
+ window.scrollTo(0,0);
 }
 
 function updateProfile(profile){
-document.getElementById("coins").textContent=Number(profile.coins).toLocaleString("ru-RU")+" 🪙";
-const name=profile.first_name||profile.username||profile.id;
-document.getElementById("player").textContent="Игрок: "+name;
-document.getElementById("profileName").textContent="Имя: "+name;
-document.getElementById("profileId").textContent="ID: "+profile.id;
-document.getElementById("profileReferrals").textContent="Приглашено друзей: "+profile.referrals;
-document.getElementById("status").textContent="Аккаунт подключён ✓";
+ if(!profile)return;
+ currentProfile=profile;
+ document.getElementById('coins').textContent=profile.coins??0;
+ document.getElementById('profileCoins').textContent=profile.coins??0;
+ document.getElementById('username').textContent=
+  profile.first_name || profile.username || 'Игрок';
+}
+
+async function apiRequest(payload={}){
+ if(!tg?.initData){
+  throw new Error('Открой приложение через Telegram');
+ }
+ const response=await fetch(API_URL,{
+  method:'POST',
+  headers:{
+   'Content-Type':'application/json',
+   'apikey':PUBLIC_KEY
+  },
+  body:JSON.stringify({
+   initData:tg.initData,
+   ...payload
+  })
+ });
+ const data=await response.json();
+ if(!response.ok||data.error)throw new Error(data.error||'Ошибка сервера');
+ return data;
 }
 
 async function loadProfile(){
-if(!tg.initData){
-document.getElementById("coins").textContent="— 🪙";
-document.getElementById("player").textContent="Открой игру через Telegram";
-return;
+ try{
+  const data=await apiRequest({});
+  updateProfile(data.profile);
+ }catch(e){
+  console.error(e);
+ }
 }
-try{
-const result=await apiRequest();
-if(!result.profile)throw new Error("Профиль не получен");
-updateProfile(result.profile);
-}catch(error){
-document.getElementById("status").textContent=error.message;
+
+function showModal(icon,title,text){
+ document.getElementById('modalIcon').textContent=icon;
+ document.getElementById('modalTitle').textContent=title;
+ document.getElementById('modalText').textContent=text;
+ document.getElementById('modal').style.display='flex';
 }
+function closeModal(){
+ document.getElementById('modal').style.display='none';
 }
 
 async function openCase(caseId){
-if(opening)return;
-if(!tg.initData){tg.showAlert("Открой игру через Telegram");return}
-opening=true;
-const button=document.getElementById("btn-"+caseId);
-button.disabled=true;
-button.textContent="ОТКРЫВАЕМ...";
-document.getElementById("caseStatus").textContent="🧟 Кейс открывается...";
-try{
-const result=await apiRequest({action:"open_case",caseId});
-if(!result.result?.success||!result.profile)throw new Error("Не удалось подтвердить открытие");
-await new Promise(r=>setTimeout(r,900));
-updateProfile(result.profile);
-document.getElementById("resultCase").textContent=result.result.case+" — твоя награда:";
-document.getElementById("resultReward").textContent="+"+Number(result.result.reward).toLocaleString("ru-RU")+" 🪙";
-document.getElementById("resultModal").style.display="flex";
-document.getElementById("caseStatus").textContent="Кейс успешно открыт!";
-}catch(error){
-document.getElementById("caseStatus").textContent="❌ "+error.message;
-tg.showAlert(error.message);
-}finally{
-opening=false;
-button.disabled=false;
-button.textContent="ОТКРЫТЬ КЕЙС";
-}
+ if(busy)return;
+ busy=true;
+ try{
+  const data=await apiRequest({action:'open_case',caseId});
+  updateProfile(data.profile);
+  showModal('🎁','Кейс открыт!',`Ты получил ${data.result.reward} монет!`);
+ }catch(e){
+  showModal('⚠️','Ошибка',e.message);
+ }finally{
+  busy=false;
+ }
 }
 
-function closeResult(){
-document.getElementById("resultModal").style.display="none";
+async function playGuess(guess){
+ if(busy)return;
+ busy=true;
+ document.querySelectorAll('#guess .numbers button').forEach(b=>b.disabled=true);
+ try{
+  const data=await apiRequest({action:'play_guess',guess});
+  updateProfile(data.profile);
+  document.getElementById('guessResult').textContent=
+   data.result.won?'🎉 Победа! +50 монет':'😔 Не угадал. Выпало '+data.result.number;
+ }catch(e){
+  document.getElementById('guessResult').textContent='⚠️ '+e.message;
+  document.querySelectorAll('#guess .numbers button').forEach(b=>b.disabled=false);
+ }finally{
+  busy=false;
+ }
 }
 
-async function playGuess(number){
-if(opening)return;
-if(!tg.initData){tg.showAlert("Открой игру через Telegram");return}
-opening=true;
-const buttons=document.querySelectorAll(".number");
-const resultBox=document.getElementById("guessResult");
-buttons.forEach(b=>b.disabled=true);
-buttons[number-1].classList.add("selected");
-resultBox.textContent="🎲 Проверяем твою удачу...";
-document.getElementById("guessGame").classList.add("rolling");
-try{
-const result=await apiRequest({action:"play_guess",guess:number});
-if(!result.result||!result.profile)throw new Error("Нет ответа от сервера");
-await new Promise(r=>setTimeout(r,800));
-document.getElementById("guessGame").classList.remove("rolling");
-updateProfile(result.profile);
-if(result.result.won){
-resultBox.textContent="🎉 ПОБЕДА! Выпало число "+result.result.number+". Ты получил +"+result.result.reward+" 🪙";
-if(tg.HapticFeedback)tg.HapticFeedback.notificationOccurred("success");
-}else{
-resultBox.textContent="😢 Не угадал! Было загадано число "+result.result.number+". Попробуй завтра!";
-if(tg.HapticFeedback)tg.HapticFeedback.notificationOccurred("error");
-}
-}catch(error){
-document.getElementById("guessGame").classList.remove("rolling");
-resultBox.textContent="❌ "+error.message;
-tg.showAlert(error.message);
-buttons.forEach(b=>b.disabled=false);
-buttons.forEach(b=>b.classList.remove("selected"));
-}finally{
-opening=false;
-}
+async function playMini(game,choice){
+ if(busy)return;
+ busy=true;
+ try{
+  if(game==='coinflip'){
+   document.getElementById('coinResult').textContent='🪙 Бросаем монету...';
+  }else{
+   document.getElementById('slotsResult').textContent='🎰 Крутим...';
+  }
+  const data=await apiRequest({
+   action:'play_mini_game',
+   game,
+   choice
+  });
+  updateProfile(data.profile);
+  const r=data.result;
+
+  if(game==='coinflip'){
+   document.getElementById('coinVisual').textContent=
+    r.outcome==='орёл'?'🦅':'🌟';
+   document.getElementById('coinResult').textContent=
+    r.won?'🎉 Ты выиграл! +'+r.reward+' монет':
+    '😔 Выпало: '+r.outcome;
+  }
+
+  if(game==='slots'){
+   document.getElementById('slotVisual').textContent=r.symbols.join(' ');
+   document.getElementById('slotsResult').textContent=
+    r.reward>0?'🎉 Награда: +'+r.reward+' монет':'😔 Нет совпадения. Попробуй завтра!';
+  }
+ }catch(e){
+  const target=game==='coinflip'?'coinResult':'slotsResult';
+  document.getElementById(target).textContent='⚠️ '+e.message;
+ }finally{
+  busy=false;
+ }
 }
 
 loadProfile();
