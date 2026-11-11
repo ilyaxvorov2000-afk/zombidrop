@@ -1,340 +1,171 @@
 
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#10090b">
-<title>ZombiDrop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ZombiDrop Casino</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#10090b;color:#fff;font-family:Arial,sans-serif;padding-bottom:85px}
-button{border:0;cursor:pointer;font-weight:bold;font-size:15px}
-#splash{position:fixed;inset:0;z-index:99999;background:#090709 url('splash.png') center/cover no-repeat;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .7s}
-#splash:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,#090709aa)}
-.splash-content{position:relative;z-index:1;text-align:center}
-.splash-logo{font-size:35px;font-weight:1000;color:#ff3045;text-shadow:0 0 25px red;letter-spacing:4px}
-.splash-loader{width:190px;height:6px;background:#44151d;border-radius:20px;margin:25px auto;overflow:hidden}
-.splash-loader div{height:100%;background:#ff3045;width:0;animation:load 2.5s forwards}
-@keyframes load{to{width:100%}}
-#splash.hide{opacity:0;pointer-events:none}
-header{padding:20px 17px 12px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:23px;font-weight:1000;color:#ff3549;letter-spacing:1px}
-.balance{background:#241116;border:1px solid #59202b;padding:10px 14px;border-radius:13px;color:#ffcf70;font-weight:bold}
-.ruble{color:#ffcf70;font-weight:1000;text-shadow:0 0 10px #ffae35}
-.page{display:none;padding:12px 16px}
-.page.active{display:block}
-.hero{background:linear-gradient(135deg,#54131e,#1b0d12 75%);border:1px solid #6b202c;border-radius:20px;padding:22px;margin-bottom:18px}
-.hero h1{font-size:26px;margin:0 0 9px}
-.hero p{color:#d5b8bd;font-size:13px;line-height:1.5}
-.section-title{font-size:20px;font-weight:900;margin:22px 0 13px}
-.case-card,.game-card,.profile-card{background:#1b1215;border:1px solid #382027;border-radius:17px;padding:17px;margin-bottom:12px}
-.case-card{display:flex;align-items:center;gap:14px}
-.case-icon{font-size:38px}
-.case-info{flex:1}
-.case-info b{font-size:16px}
-.muted{font-size:12px;color:#a99499;margin-top:6px}
-.red-btn{background:linear-gradient(135deg,#ff4053,#bd1029);color:white;padding:13px 17px;border-radius:12px;box-shadow:0 5px 18px #d21b3033}
-.red-btn:disabled{opacity:.5}
-.dark-btn{background:#302027;color:#fff;padding:12px;border-radius:12px}
-.game-card{display:flex;align-items:center;gap:14px}
-.game-icon{font-size:35px}
-.game-info{flex:1}
-.game-info b{font-size:16px}
-.game-info p{font-size:12px;color:#a99499;margin:6px 0 0}
-.back{color:#ff5365;background:none;padding:8px 0;margin-bottom:12px}
-.number-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:22px 0}
-.number-btn{background:#2b171e;color:#fff;border:1px solid #63303c;border-radius:13px;padding:17px 0;font-size:20px}
-.number-btn:disabled{opacity:.5}
-.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
-.choice-btn{background:#2b171e;color:#fff;border:1px solid #63303c;border-radius:15px;padding:23px 8px;font-size:17px}
-.slot-result{font-size:45px;text-align:center;background:#2b171e;border-radius:15px;padding:20px;margin:20px 0}
-.profile-avatar{font-size:60px;text-align:center;margin:10px}
-.profile-name{text-align:center;font-size:20px;font-weight:bold}
-.stat-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #39232a}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#170e11;border-top:1px solid #382027;display:flex;justify-content:space-around;padding:10px 3px calc(10px + env(safe-area-inset-bottom));z-index:10}
-.nav button{background:none;color:#8e777d;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
-.nav button span{font-size:21px}
-.nav button.active{color:#ff4053}
-.notice{background:#28171c;border:1px solid #57303a;padding:13px;border-radius:12px;margin-top:12px;font-size:13px;line-height:1.5}
-.modal{display:none;position:fixed;inset:0;background:#000b;z-index:100;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
-.modal-box{background:#211318;border:1px solid #77303d;border-radius:20px;padding:25px;text-align:center;width:100%;max-width:330px}
-.modal-box h2{color:#ff4053}
-.small{font-size:12px;color:#a99499}
+body{margin:0;background:#100b0d;color:white;font-family:Arial,sans-serif}
+header{padding:22px 18px;background:linear-gradient(135deg,#4c080e,#16090c);border-bottom:1px solid #79202a}
+.logo{font-size:27px;font-weight:900;color:#ff3448}
+.sub{color:#c99da2;font-size:12px;margin-top:5px}
+.balance{margin:15px 16px;padding:18px;border-radius:18px;background:#211316;border:1px solid #67212c}
+.balance small{color:#c99da2}
+.amount{font-size:27px;font-weight:bold;color:#ff4658;margin-top:7px}
+h2{font-size:19px;margin:22px 16px 12px}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px}
+.game{background:linear-gradient(145deg,#291519,#171013);border:1px solid #55202a;border-radius:17px;padding:18px 10px;text-align:center;min-height:130px}
+.emoji{font-size:38px}
+.game b{display:block;margin-top:9px}
+.game small{color:#b99ca0}
+button{border:0;border-radius:12px;background:linear-gradient(135deg,#ff3349,#a80c20);color:white;font-weight:bold;padding:13px;width:100%;margin-top:12px;font-size:15px}
+button:disabled{opacity:.5}
+.panel{margin:15px;padding:20px;background:#211316;border:1px solid #67212c;border-radius:18px;text-align:center}
+.hidden{display:none}
+.big{font-size:55px;margin:18px}
+.result{font-size:18px;color:#ff6878;min-height:28px;margin:12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#190f12;border-top:1px solid #54202a;display:flex;padding:10px 5px}
+nav button{background:transparent;color:#d6b7bb;margin:0;padding:9px 2px;font-size:12px}
+nav button.active{color:#ff4658}
+main{padding-bottom:85px}
+footer{text-align:center;color:#775b60;font-size:11px;padding:15px}
 </style>
 </head>
-
 <body>
-
-<div id="splash">
-  <div class="splash-content">
-    <div style="font-size:65px">🧟</div>
-    <div class="splash-logo">ZOMBI DROP</div>
-    <div class="splash-loader"><div></div></div>
-    <div style="font-size:12px;letter-spacing:3px">ЗАГРУЗКА...</div>
-  </div>
-</div>
-
 <header>
-  <div class="logo">🧟 ZOMBI DROP</div>
-  <div class="balance"><span class="ruble">₽</span> <span id="coins">0</span></div>
+ <div class="logo">☣ ZOMBIDROP</div>
+ <div class="sub">CASINO • ИГРАЙ И ПОБЕЖДАЙ</div>
 </header>
 
 <main>
-<section class="page active" id="home">
-  <div class="hero">
-    <h1>Добро пожаловать!</h1>
-    <p>Открывай кейсы, играй в мини-игры и собирай награды в ZombiDrop.</p>
-    <button class="red-btn" onclick="showPage('cases')">Открыть кейсы</button>
-  </div>
-  <div class="section-title">🔥 Популярное</div>
-  <div class="case-card">
-    <div class="case-icon">🎁</div>
-    <div class="case-info"><b>Ежедневный кейс</b><div class="muted">Бесплатно · 1 раз в день</div></div>
-    <button class="red-btn" onclick="openCase('daily')">Открыть</button>
-  </div>
-  <div class="section-title">🎮 Мини-игры</div>
-  <div class="game-card">
-    <div class="game-icon">🎯</div>
-    <div class="game-info"><b>Угадай число</b><p>Выбери число от 1 до 5</p></div>
-    <button class="red-btn" onclick="showPage('guess')">Играть</button>
-  </div>
+<section id="home">
+ <div class="balance">
+  <small>ТВОЙ БАЛАНС</small>
+  <div class="amount">🪙 <span id="coins">1000</span> Z-COINS</div>
+ </div>
+ <h2>🎰 Игровой зал</h2>
+ <div class="games">
+  <div class="game"><div class="emoji">🎰</div><b>Слоты</b><small>Бесплатная игра</small><button onclick="showGame('slots')">Играть</button></div>
+  <div class="game"><div class="emoji">🎡</div><b>Колесо</b><small>Испытай удачу</small><button onclick="showGame('wheel')">Играть</button></div>
+  <div class="game"><div class="emoji">🎲</div><b>Кости</b><small>Брось кубик</small><button onclick="showGame('dice')">Играть</button></div>
+  <div class="game"><div class="emoji">🎯</div><b>Рулетка</b><small>Красное или чёрное</small><button onclick="showGame('roulette')">Играть</button></div>
+ </div>
 </section>
 
-<section class="page" id="cases">
-  <div class="section-title">🎁 Кейсы</div>
-  <div class="case-card">
-    <div class="case-icon">🎁</div>
-    <div class="case-info"><b>Ежедневный</b><div class="muted">Бесплатно · до 100 ₽</div></div>
-    <button class="red-btn" onclick="openCase('daily')">Открыть</button>
-  </div>
-  <div class="case-card">
-    <div class="case-icon">📦</div>
-    <div class="case-info"><b>Обычный</b><div class="muted">Цена: 100 ₽</div></div>
-    <button class="red-btn" onclick="openCase('basic')">Открыть</button>
-  </div>
-  <div class="case-card">
-    <div class="case-icon">💎</div>
-    <div class="case-info"><b>Элитный</b><div class="muted">Цена: 500 ₽</div></div>
-    <button class="red-btn" onclick="openCase('premium')">Открыть</button>
-  </div>
+<section id="play" class="hidden">
+ <div class="panel">
+  <h2 id="gameTitle">Игра</h2>
+  <div class="big" id="gameVisual">🎰</div>
+  <div class="result" id="result">Нажми кнопку, чтобы играть!</div>
+  <button id="playButton" onclick="playGame()">ИГРАТЬ</button>
+  <button style="background:#392126" onclick="goHome()">← Назад</button>
+ </div>
 </section>
 
-<section class="page" id="games">
-  <div class="section-title">🎮 Мини-игры</div>
-  <div class="game-card">
-    <div class="game-icon">🎯</div><div class="game-info"><b>Угадай число</b><p>Награда: 50 ₽</p></div>
-    <button class="red-btn" onclick="showPage('guess')">Играть</button>
-  </div>
-  <div class="game-card">
-    <div class="game-icon">🪙</div><div class="game-info"><b>Орёл или решка</b><p>Награда: 40 ₽</p></div>
-    <button class="red-btn" onclick="showPage('coinflip')">Играть</button>
-  </div>
-  <div class="game-card">
-    <div class="game-icon">🎰</div><div class="game-info"><b>Слоты</b><p>Собери одинаковые символы</p></div>
-    <button class="red-btn" onclick="showPage('slots')">Играть</button>
-  </div>
+<section id="profile" class="hidden">
+ <div class="panel">
+  <div class="big">🧟</div>
+  <h2>ТВОЙ ПРОФИЛЬ</h2>
+  <p>Баланс: <b id="profileCoins">1000</b> Z-COINS</p>
+  <p>Добро пожаловать в ZombiDrop Casino!</p>
+ </div>
 </section>
-
-<section class="page" id="guess">
-  <button class="back" onclick="showPage('games')">← Назад к играм</button>
-  <div class="section-title">🎯 Угадай число</div>
-  <div class="notice">Загадано число от 1 до 5. Угадай его и получи 50 ₽. Одна попытка в день.</div>
-  <div class="number-grid">
-    <button class="number-btn" onclick="playGuess(1)">1</button>
-    <button class="number-btn" onclick="playGuess(2)">2</button>
-    <button class="number-btn" onclick="playGuess(3)">3</button>
-    <button class="number-btn" onclick="playGuess(4)">4</button>
-    <button class="number-btn" onclick="playGuess(5)">5</button>
-  </div>
-  <div id="guess-result" class="notice">Выбери число!</div>
-</section>
-
-<section class="page" id="coinflip">
-  <button class="back" onclick="showPage('games')">← Назад к играм</button>
-  <div class="section-title">🪙 Орёл или решка</div>
-  <div class="notice">Угадай сторону монеты. За правильный ответ — 40 ₽. Одна попытка в день.</div>
-  <div class="choice-grid">
-    <button class="choice-btn" onclick="playMini('coinflip','орёл')">🦅<br>Орёл</button>
-    <button class="choice-btn" onclick="playMini('coinflip','решка')">🪙<br>Решка</button>
-  </div>
-  <div id="coin-result" class="notice">Сделай выбор!</div>
-</section>
-
-<section class="page" id="slots">
-  <button class="back" onclick="showPage('games')">← Назад к играм</button>
-  <div class="section-title">🎰 Слоты</div>
-  <div class="notice">Крути барабаны. Одна попытка в день. Три одинаковых символа дают награду.</div>
-  <div class="slot-result" id="slot-icons">❔ ❔ ❔</div>
-  <button class="red-btn" style="width:100%" onclick="playMini('slots','')">Крутить</button>
-  <div id="slot-result" class="notice">Удачи!</div>
-</section>
-
-<section class="page" id="profile">
-  <div class="section-title">👤 Мой профиль</div>
-  <div class="profile-card">
-    <div class="profile-avatar">🧟</div>
-    <div class="profile-name" id="profile-name">Игрок</div>
-    <div class="stat-row"><span>Баланс</span><b class="ruble">₽ <span id="profile-coins">0</span></b></div>
-    <div class="stat-row"><span>Рефералы</span><b id="profile-referrals">0</b></div>
-    <div class="stat-row"><span>ID</span><b id="profile-id">—</b></div>
-  </div>
-  <div class="notice">Добро пожаловать в ZombiDrop! Следи за обновлениями.</div>
-</section>
+<footer>Виртуальные игровые монеты • Без вывода денег</footer>
 </main>
 
-<nav class="nav">
-  <button class="active" data-page="home" onclick="showPage('home')"><span>🏠</span>Главная</button>
-  <button data-page="cases" onclick="showPage('cases')"><span>🎁</span>Кейсы</button>
-  <button data-page="games" onclick="showPage('games')"><span>🎮</span>Игры</button>
-  <button data-page="profile" onclick="showPage('profile')"><span>👤</span>Профиль</button>
+<nav>
+ <button class="active" id="navHome" onclick="goHome()">🏠 Главная</button>
+ <button id="navProfile" onclick="showProfile()">👤 Профиль</button>
 </nav>
 
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <div style="font-size:55px" id="modal-icon">🎁</div>
-    <h2 id="modal-title">Результат</h2>
-    <p id="modal-text"></p>
-    <button class="red-btn" onclick="closeModal()">Отлично!</button>
-  </div>
-</div>
-
 <script>
-const API_URL = "https://pkcgoatodnwdopateqgr.supabase.co/functions/v1/bright-handler";
-const PUBLIC_KEY = "sb_publishable_Ogp7p8eisgz_3jO_sgxohg_cztUFppl";
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
 
-const tg = window.Telegram?.WebApp;
-if(tg){
-  tg.ready();
-  tg.expand();
-  tg.setHeaderColor("#10090b");
-  tg.setBackgroundColor("#10090b");
+let coins=Number(localStorage.getItem('zd_coins')||1000);
+let current='';
+let busy=false;
+
+function update(){
+ document.getElementById('coins').textContent=coins;
+ document.getElementById('profileCoins').textContent=coins;
+ localStorage.setItem('zd_coins',coins);
 }
-
-let profile = null;
-let busy = false;
-
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id)?.classList.add("active");
-  document.querySelectorAll(".nav button").forEach(b=>{
-    b.classList.toggle("active",b.dataset.page===id);
-  });
-  window.scrollTo(0,0);
+function hideAll(){
+ ['home','play','profile'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+ document.getElementById('navHome').classList.remove('active');
+ document.getElementById('navProfile').classList.remove('active');
 }
-
-function updateProfile(p){
-  if(!p)return;
-  profile=p;
-  const coins=Number(p.coins||0);
-  document.getElementById("coins").textContent=coins;
-  document.getElementById("profile-coins").textContent=coins;
-  document.getElementById("profile-referrals").textContent=p.referrals||0;
-  document.getElementById("profile-id").textContent=p.id||"—";
-  const name=p.first_name||p.username||"Игрок";
-  document.getElementById("profile-name").textContent=name;
+function goHome(){
+ hideAll();
+ document.getElementById('home').classList.remove('hidden');
+ document.getElementById('navHome').classList.add('active');
 }
-
-async function apiRequest(payload={}){
-  if(!tg?.initData){
-    throw new Error("Открой приложение через Telegram");
-  }
-  const response=await fetch(API_URL,{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "apikey":PUBLIC_KEY,
-      "Authorization":"Bearer "+PUBLIC_KEY
-    },
-    body:JSON.stringify({initData:tg.initData,...payload})
-  });
-  const data=await response.json();
-  if(!response.ok)throw new Error(data.error||"Ошибка сервера");
-  return data;
+function showProfile(){
+ hideAll();
+ document.getElementById('profile').classList.remove('hidden');
+ document.getElementById('navProfile').classList.add('active');
+ update();
 }
-
-async function loadProfile(){
-  try{
-    const data=await apiRequest({});
-    if(data.profile)updateProfile(data.profile);
-    else throw new Error(data.error||"Не удалось загрузить профиль");
-  }catch(e){
-    console.error(e);
-    showNotice("Ошибка подключения: "+e.message);
-  }
+const games={
+ slots:{title:'🎰 Слоты',visual:'🍒 🍋 💎'},
+ wheel:{title:'🎡 Колесо фортуны',visual:'🎡'},
+ dice:{title:'🎲 Кости',visual:'🎲'},
+ roulette:{title:'🎯 Рулетка',visual:'🔴 ⚫'}
+};
+function showGame(name){
+ current=name;
+ hideAll();
+ document.getElementById('play').classList.remove('hidden');
+ document.getElementById('gameTitle').textContent=games[name].title;
+ document.getElementById('gameVisual').textContent=games[name].visual;
+ document.getElementById('result').textContent='Нажми кнопку, чтобы играть!';
+ document.getElementById('playButton').disabled=false;
 }
-
-async function openCase(caseId){
-  if(busy)return;
-  busy=true;
-  try{
-    const data=await apiRequest({action:"open_case",caseId});
-    if(data.profile)updateProfile(data.profile);
-    const result=data.result||data;
-    if(result.error)throw new Error(result.error);
-    showModal("🎁","Кейс открыт!","Ты получил "+(result.reward??0)+" ₽!");
-  }catch(e){
-    showModal("⚠️","Не получилось",e.message);
-  }finally{busy=false;}
+function reward(amount,message){
+ coins+=amount;
+ update();
+ document.getElementById('result').textContent=message+' +'+amount+' Z-COINS';
 }
-
-async function playGuess(number){
-  if(busy)return;
-  busy=true;
-  try{
-    const data=await apiRequest({action:"play_guess",guess:number});
-    if(data.profile)updateProfile(data.profile);
-    const r=data.result||data;
-    if(r.error)throw new Error(r.error);
-    document.getElementById("guess-result").textContent=
-      r.won?"🎉 Ты угадал! +"+r.reward+" ₽. Загаданное число: "+r.number:
-      "Не угадал! Было загадано число "+r.number+". Попробуй завтра.";
-    document.querySelectorAll(".number-btn").forEach(b=>b.disabled=true);
-  }catch(e){
-    document.getElementById("guess-result").textContent=e.message;
-  }finally{busy=false;}
+function playGame(){
+ if(busy)return;
+ busy=true;
+ const btn=document.getElementById('playButton');
+ const visual=document.getElementById('gameVisual');
+ const result=document.getElementById('result');
+ btn.disabled=true;
+ result.textContent='Играем...';
+ if(current==='slots'){
+  let symbols=['🍒','🍋','🔔','💎','👑'];
+  let arr=Array.from({length:3},()=>symbols[Math.floor(Math.random()*symbols.length)]);
+  visual.textContent=arr.join(' ');
+  let win=arr[0]===arr[1]&&arr[1]===arr[2]?100:arr[0]===arr[1]||arr[1]===arr[2]?20:5;
+  reward(win,'Комбинация готова!');
+ }
+ if(current==='wheel'){
+  let prizes=[5,10,20,50,100,200];
+  let prize=prizes[Math.floor(Math.random()*prizes.length)];
+  visual.textContent='🎡';
+  reward(prize,'Колесо остановилось!');
+ }
+ if(current==='dice'){
+  let n=Math.floor(Math.random()*6)+1;
+  visual.textContent=['⚀','⚁','⚂','⚃','⚄','⚅'][n-1];
+  reward(n*10,'Выпало '+n+'!');
+ }
+ if(current==='roulette'){
+  let colors=['🔴 Красное','⚫ Чёрное','🟢 Зелёное'];
+  let color=colors[Math.floor(Math.random()*colors.length)];
+  visual.textContent=color;
+  reward(color.includes('Зелёное')?100:color.includes('Красное')?20:10,'Результат рулетки!');
+ }
+ setTimeout(()=>{btn.disabled=false;busy=false;},700);
 }
-
-async function playMini(game,choice){
-  if(busy)return;
-  busy=true;
-  try{
-    const data=await apiRequest({action:"play_mini_game",game,choice});
-    if(data.profile)updateProfile(data.profile);
-    const r=data.result||data;
-    if(r.error)throw new Error(r.error);
-    if(game==="coinflip"){
-      document.getElementById("coin-result").textContent=
-        "Выпало: "+(r.result?.side||r.side||"—")+". "+(r.won?"Ты выиграл! ":"")+"Награда: "+(r.reward||0)+" ₽.";
-    }else{
-      const symbols=r.result?.symbols||r.symbols||[];
-      document.getElementById("slot-icons").textContent=symbols.join(" ");
-      document.getElementById("slot-result").textContent=
-        "Результат: "+(r.reward||0)+" ₽!";
-    }
-  }catch(e){
-    const target=game==="coinflip"?"coin-result":"slot-result";
-    document.getElementById(target).textContent=e.message;
-  }finally{busy=false;}
-}
-
-function showModal(icon,title,message){
-  document.getElementById("modal-icon").textContent=icon;
-  document.getElementById("modal-title").textContent=title;
-  document.getElementById("modal-text").textContent=message;
-  document.getElementById("modal").classList.add("show");
-}
-function closeModal(){document.getElementById("modal").classList.remove("show");}
-function showNotice(message){console.log(message);}
-
-setTimeout(()=>{
-  document.getElementById("splash").classList.add("hide");
-},2700);
-
-loadProfile();
+update();
 </script>
 </body>
 </html>
