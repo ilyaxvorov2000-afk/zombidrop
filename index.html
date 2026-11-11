@@ -4,424 +4,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#10090d">
-<title>ZombiXCasino</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+<meta name="theme-color" content="#10090b">
+<title>ZombiXCasino — Candy Slots</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#10090d;color:white;font-family:Arial,sans-serif;padding-bottom:85px}
-button{font-family:inherit;cursor:pointer}
-header{padding:20px;background:linear-gradient(135deg,#310b19,#10090d);border-bottom:1px solid #51202e}
-.logo{font-size:26px;font-weight:900}
-.logo span{color:#ff304b}
-.tag{font-size:10px;color:#b995a0;letter-spacing:3px;margin-top:5px}
-
-#loading{
- position:fixed;inset:0;z-index:1000;
- background:#10090d url('loading.png') center/cover no-repeat;
- display:flex;align-items:flex-end;justify-content:center;
- padding:0 20px 12vh;transition:opacity .8s,visibility .8s
-}
-#loading:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#10090d 0%,transparent 65%)}
-#loading.hide{opacity:0;visibility:hidden;pointer-events:none}
-.loadbox{position:relative;width:100%;text-align:center}
-.loadtitle{font-size:24px;font-weight:900;color:#ff304b;text-shadow:0 0 20px red}
-.loadbar{height:9px;background:#32101c;border:1px solid #ff304b;border-radius:20px;margin-top:15px;overflow:hidden}
-.loadfill{height:100%;width:0;background:#ff304b;box-shadow:0 0 15px red}
-#percent{font-size:12px;margin-top:8px}
-
-.page{display:none}
-.page.active{display:block}
-.balance{margin:17px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#a90e2e,#4c081c)}
-.balance small{color:#ffd2dc}
-.amount{font-size:28px;font-weight:900;margin:8px 0}
-.btn{border:0;border-radius:11px;padding:12px 18px;background:#ff304b;color:white;font-weight:bold}
-.banner{margin:17px;padding:22px;border-radius:18px;background:linear-gradient(120deg,#580b25,#d51d42)}
-.banner strong{font-size:21px}
-h2{font-size:19px;margin:24px 17px 13px}
-.games{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 15px}
-.game{background:#21131b;border:1px solid #482330;border-radius:17px;overflow:hidden}
-.game img{width:100%;height:115px;object-fit:cover}
-.gameinfo{padding:12px}
-.gameinfo small{display:block;color:#ad929c;margin-top:5px}
-.play{width:100%;margin-top:10px;padding:11px;background:#d51e40;color:white;border:0;border-radius:9px;font-weight:bold}
-.profile{margin:17px;padding:19px;background:#21141b;border:1px solid #482330;border-radius:17px}
-.action{width:100%;padding:14px;margin-top:10px;border:1px solid #4b2935;background:#2a1720;color:white;border-radius:12px;text-align:left}
-.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#1b1016;border-top:1px solid #48202c;display:flex;justify-content:space-around;align-items:center;z-index:10}
-.nav button{background:none;border:0;color:#b99eaa;font-size:11px}
-.nav button.active{color:#ff405b}
-.nav i{display:block;font-style:normal;font-size:21px;margin-bottom:4px}
-
-/* CANDY SLOT */
-.slot-wrap{padding:12px}
-.slot-head{
- padding:18px;text-align:center;border-radius:20px;
- background:linear-gradient(135deg,#4c102f,#a20f43,#39102e);
- border:1px solid #ff4775;
- box-shadow:0 0 25px #a9003633;
-}
-.slot-head h1{margin:0;font-size:28px;color:#ffb0ce;text-shadow:0 0 15px #ff2871}
-.slot-head p{font-size:11px;color:#ffd6e5;letter-spacing:2px}
-.slot-balance{
- background:#24121d;border:1px solid #693047;
- border-radius:13px;padding:13px;margin:12px 0;
- display:flex;justify-content:space-between;align-items:center;
-}
-.slot-balance strong{color:#ff789f;font-size:20px}
-.machine{
- background:linear-gradient(145deg,#5c1740,#250e2c);
- padding:12px;border:3px solid #e33d81;
- border-radius:20px;box-shadow:0 0 25px #d9006c55;
-}
-.reels{
- display:grid;grid-template-columns:repeat(5,1fr);
- gap:5px;background:#170c1d;padding:7px;
- border-radius:12px;
-}
-.reel{
- height:80px;background:linear-gradient(#fff4f9,#ffd7e8);
- border-radius:8px;display:flex;align-items:center;
- justify-content:center;font-size:34px;
- box-shadow:inset 0 0 9px #c52b70;
- overflow:hidden;
-}
-.reel.spinning{animation:shake .12s infinite}
-@keyframes shake{
- 0%{transform:translateY(-5px)}
- 50%{transform:translateY(5px)}
- 100%{transform:translateY(-5px)}
-}
-.bet-box{display:flex;justify-content:center;gap:8px;margin:16px 0}
-.bet{
- flex:1;padding:12px 4px;border-radius:10px;
- background:#281521;color:white;border:1px solid #75405a;font-weight:bold
-}
-.bet.selected{background:#b8184b;border-color:#ff739f}
-.spin{
- width:100%;padding:17px;border:0;border-radius:14px;
- background:linear-gradient(90deg,#ff174d,#c00065);
- color:white;font-size:20px;font-weight:900;
- box-shadow:0 5px 20px #ff174d55;
-}
+body{margin:0;background:radial-gradient(ellipse at top,#42151e,#10090b 65%);color:#fff;font-family:Arial,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer;border:0;color:white}
+header{display:flex;justify-content:space-between;align-items:center;padding:17px}
+.logo{font-size:22px;font-weight:900;color:#ff4b61;text-shadow:0 0 15px #ff183b}
+.balance{background:#24151a;border:1px solid #8e293c;padding:10px 14px;border-radius:14px;font-weight:bold}
+main{max-width:520px;margin:auto;padding:8px 14px 35px}
+h1{text-align:center;font-size:27px;margin:16px 0 5px}
+.sub{text-align:center;color:#bd9da4;font-size:13px;margin-bottom:20px}
+.machine{background:linear-gradient(145deg,#38141f,#170c12);border:2px solid #a72e47;border-radius:25px;padding:13px;box-shadow:0 0 30px #e3224630}
+.machine-top{text-align:center;color:#ff8294;font-weight:900;letter-spacing:3px;padding:9px}
+.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:#09070a;padding:8px;border-radius:15px;border:2px solid #6d2738}
+.reel{height:178px;display:grid;grid-template-rows:repeat(3,1fr);gap:4px;overflow:hidden}
+.cell{background:linear-gradient(145deg,#fff4e8,#e7b9ad);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:inset 0 0 8px #8a3540;color:#241016}
+.cell.win{background:#ffe08b;box-shadow:0 0 15px #ffbd32;transform:scale(1.03)}
+.reel.spinning .cell{filter:blur(2px)}
+.payline{text-align:center;color:#ffc1cb;font-size:11px;margin-top:10px}
+.controls{margin-top:17px;background:#211219;border-radius:18px;padding:15px}
+.betrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.small{color:#c5a8af;font-size:12px}
+.betvalue{font-size:24px;font-weight:900;color:#ffd078}
+.betbuttons{display:flex;gap:7px;margin-top:12px}
+.betbuttons button{flex:1;background:#44202c;border:1px solid #793347;border-radius:10px;padding:11px 3px}
+.betbuttons button.active{background:#a72c48;border-color:#ff8197}
+.spin{width:100%;margin-top:15px;padding:17px;border-radius:14px;background:linear-gradient(90deg,#c51f43,#ff5266);font-size:19px;font-weight:900;box-shadow:0 5px 0 #72142b,0 0 20px #ff31504a}
 .spin:disabled{opacity:.5}
-.result{
- text-align:center;padding:15px;margin-top:12px;
- background:#21121e;border-radius:13px;
- color:#ffb1d0;min-height:52px;font-weight:bold
-}
-.paytable{margin-top:15px;padding:15px;background:#21121e;border-radius:13px}
-.paytable h3{margin:0 0 12px;color:#ff82ad}
-.payrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #422334;font-size:13px}
-.history{margin-top:15px;padding:15px;background:#21121e;border-radius:13px}
-.history h3{margin:0 0 10px}
-.history-item{padding:8px 0;border-bottom:1px solid #422334;font-size:12px;color:#d8b7c6}
-.note{font-size:10px;color:#aa8c9b;text-align:center;margin:13px 0}
+.message{text-align:center;min-height:27px;margin-top:13px;color:#ffd078;font-weight:bold}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.info div{background:#211219;padding:13px;border-radius:13px;text-align:center}
+.info strong{display:block;font-size:18px;margin-top:5px}
+.history{margin-top:18px;background:#211219;border-radius:16px;padding:14px}
+.history h3{margin:0 0 10px;font-size:15px}
+.history-item{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #ffffff12;font-size:13px}
+.wintext{color:#75e5a2}.losstext{color:#ff788c}
+footer{text-align:center;color:#765c64;font-size:11px;margin-top:20px}
+@media(max-width:380px){.reel{height:150px}.cell{font-size:25px}.reels{gap:3px;padding:5px}}
 </style>
 </head>
-
 <body>
-
-<div id="loading">
- <div class="loadbox">
-  <div class="loadtitle">ZOMBIXCASINO</div>
-  <p>WELCOME TO THE APOCALYPSE</p>
-  <div class="loadbar"><div class="loadfill" id="loadfill"></div></div>
-  <div id="percent">0%</div>
- </div>
-</div>
-
 <header>
- <div class="logo">Zombi<span>X</span>Casino</div>
- <div class="tag">YOUR WORLD. YOUR GAME.</div>
+ <div class="logo">☣ ZombiXCasino</div>
+ <div class="balance">🪙 <span id="balance">10 000</span> Z</div>
 </header>
+<main>
+ <h1>🍬 CANDY SLOTS</h1>
+ <div class="sub">ZOMBIE EDITION · 5 БАРАБАНОВ</div>
 
-<!-- ГЛАВНАЯ -->
-<div id="home" class="page active">
- <div class="balance">
-  <small>ВАШ БАЛАНС</small>
-  <div class="amount" id="balance">1000 Z-Coins</div>
-  <button class="btn" onclick="show('wallet')">＋ Кошелёк</button>
- </div>
- <div class="banner">
-  <strong>WELCOME TO ZOMBIX</strong>
-  <p>Твоя игровая вселенная начинается здесь.</p>
- </div>
- <h2>🎰 Игровой зал</h2>
- <div class="games">
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600" alt="">
-   <div class="gameinfo"><b>🍬 Candy Slots</b><small>Сладкий игровой автомат</small>
-   <button class="play" onclick="openCandy()">ИГРАТЬ</button></div>
+ <section class="machine">
+  <div class="machine-top">✦ CANDY APOCALYPSE ✦</div>
+  <div class="reels" id="reels">
+   <div class="reel"></div><div class="reel"></div><div class="reel"></div><div class="reel"></div><div class="reel"></div>
   </div>
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=600" alt="">
-   <div class="gameinfo"><b>⚡ Olympus</b><small>Скоро</small><button class="play" onclick="alert('Скоро!')">СКОРО</button></div>
+  <div class="payline">ВЫИГРЫШ — ТРИ И БОЛЕЕ ОДИНАКОВЫХ СИМВОЛА В РЯДУ</div>
+ </section>
+
+ <section class="controls">
+  <div class="betrow">
+   <div><div class="small">ТВОЯ СТАВКА</div><div class="betvalue"><span id="bet">10</span> Z</div></div>
+   <div class="small">ВИРТУАЛЬНЫЕ МОНЕТЫ</div>
   </div>
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?w=600" alt="">
-   <div class="gameinfo"><b>🧟 Zombie 777</b><small>Скоро</small><button class="play" onclick="alert('Скоро!')">СКОРО</button></div>
+  <div class="betbuttons">
+   <button class="active" data-bet="10">10</button>
+   <button data-bet="25">25</button>
+   <button data-bet="50">50</button>
+   <button data-bet="100">100</button>
+   <button data-bet="250">250</button>
   </div>
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600" alt="">
-   <div class="gameinfo"><b>🚀 Crash</b><small>Скоро</small><button class="play" onclick="alert('Скоро!')">СКОРО</button></div>
-  </div>
- </div>
-</div>
+  <button class="spin" id="spin">🎰 КРУТИТЬ</button>
+  <div class="message" id="message">Удачи в игре!</div>
+ </section>
 
-<!-- CANDY SLOT -->
-<div id="candy" class="page">
- <div class="slot-wrap">
-  <div class="slot-head">
-   <h1>🍬 CANDY SLOTS 🍭</h1>
-   <p>SWEET ZOMBIX WORLD</p>
-  </div>
+ <section class="info">
+  <div><span class="small">ПОСЛЕДНИЙ ВЫИГРЫШ</span><strong id="lastwin">0 Z</strong></div>
+  <div><span class="small">ВСЕГО ВЫИГРАНО</span><strong id="totalwin">0 Z</strong></div>
+ </section>
 
-  <div class="slot-balance">
-   <span>ТВОЙ БАЛАНС</span>
-   <strong id="slotBalance">1000 ZC</strong>
-  </div>
-
-  <div class="machine">
-   <div class="reels" id="reels">
-    <div class="reel">🍒</div>
-    <div class="reel">🍋</div>
-    <div class="reel">🍇</div>
-    <div class="reel">🍉</div>
-    <div class="reel">🍭</div>
-    <div class="reel">🍬</div>
-    <div class="reel">🍓</div>
-    <div class="reel">⭐</div>
-    <div class="reel">🍒</div>
-    <div class="reel">🍋</div>
-    <div class="reel">🍇</div>
-    <div class="reel">🍉</div>
-    <div class="reel">🍭</div>
-    <div class="reel">🍬</div>
-    <div class="reel">🍓</div>
-   </div>
-  </div>
-
-  <div class="bet-box">
-   <button class="bet selected" onclick="setBet(10,this)">10</button>
-   <button class="bet" onclick="setBet(25,this)">25</button>
-   <button class="bet" onclick="setBet(50,this)">50</button>
-   <button class="bet" onclick="setBet(100,this)">100</button>
-  </div>
-
-  <button class="spin" id="spinBtn" onclick="spin()">🎰 КРУТИТЬ</button>
-  <div class="result" id="result">Удачи! Попробуй собрать комбинацию 🍬</div>
-
-  <div class="paytable">
-   <h3>🏆 ТАБЛИЦА ВЫИГРЫШЕЙ</h3>
-   <div class="payrow"><span>🍭 5 одинаковых</span><b>x10</b></div>
-   <div class="payrow"><span>🍓 5 одинаковых</span><b>x8</b></div>
-   <div class="payrow"><span>🍇 5 одинаковых</span><b>x6</b></div>
-   <div class="payrow"><span>🍒 5 одинаковых</span><b>x5</b></div>
-   <div class="payrow"><span>🍬 5 одинаковых</span><b>x4</b></div>
-   <div class="payrow"><span>⭐ 3 или больше</span><b>x3</b></div>
-   <div class="note">Выигрыши рассчитываются по центральному ряду слева направо. Звёзды оплачиваются отдельно.</div>
-  </div>
-
-  <div class="history">
-   <h3>📜 Последние вращения</h3>
-   <div id="history"><div class="history-item">История пока пуста</div></div>
-  </div>
-
-  <button class="action" onclick="show('home')">← Вернуться в казино</button>
- </div>
-</div>
-
-<!-- КОШЕЛЁК -->
-<div id="wallet" class="page">
- <h2>💰 Кошелёк</h2>
- <div class="profile">
-  <p>Текущий баланс</p>
-  <div class="amount" id="walletBalance">1000 Z-Coins</div>
-  <p>Виртуальная игровая валюта.</p>
-  <button class="action" onclick="alert('Подключим официальные Telegram Stars через сервер')">⭐ Telegram Stars — скоро</button>
-  <button class="action" onclick="alert('Банковский провайдер подключим отдельно')">💳 Банковская карта — скоро</button>
- </div>
-</div>
-
-<!-- ПРОФИЛЬ -->
-<div id="profile" class="page">
- <h2>👤 Профиль</h2>
- <div class="profile">
-  <h3 id="username">Игрок ZombiX</h3>
-  <p id="telegramName">Добро пожаловать!</p>
-  <p id="profileBalance">Баланс: 1000 Z-Coins</p>
-  <button class="action" onclick="show('wallet')">💰 Мой кошелёк</button>
- </div>
-</div>
-
-<div class="nav">
- <button class="active" onclick="show('home',this)"><i>🏠</i>Главная</button>
- <button onclick="show('wallet',this)"><i>💰</i>Кошелёк</button>
- <button onclick="show('profile',this)"><i>👤</i>Профиль</button>
-</div>
-
+ <section class="history">
+  <h3>📜 История вращений</h3>
+  <div id="history"><div class="small">Пока нет вращений</div></div>
+ </section>
+ <footer>Демо-игра · Только виртуальные Z-Coins · Без вывода денег</footer>
+</main>
 <script>
-const tg=window.Telegram?.WebApp;
-if(tg){
- tg.ready();
- tg.expand();
- const user=tg.initDataUnsafe?.user;
- if(user){
-  document.getElementById('username').textContent=user.first_name||'Игрок ZombiX';
-  document.getElementById('telegramName').textContent=user.username?'@'+user.username:'Игрок Telegram';
- }
+const symbols=[
+ {e:"🍬",m:2},{e:"🍒",m:3},{e:"🍋",m:4},
+ {e:"🍉",m:5},{e:"🍇",m:7},{e:"💎",m:12},
+ {e:"👑",m:20},{e:"☣️",m:30}
+];
+const $=id=>document.getElementById(id);
+let balance=Number(localStorage.getItem("zxc_balance"));
+if(!Number.isFinite(balance)||balance<0)balance=10000;
+let bet=10,busy=false,totalwin=Number(localStorage.getItem("zxc_totalwin"))||0;
+let history=[];
+const reels=[...document.querySelectorAll(".reel")];
+function save(){
+ localStorage.setItem("zxc_balance",balance);
+ localStorage.setItem("zxc_totalwin",totalwin);
 }
-
-/* ДЕМО-БАЛАНС */
-let balance=Number(localStorage.getItem('zombix_demo_balance'));
-if(!Number.isFinite(balance)||balance<0)balance=1000;
-let bet=10;
-let busy=false;
-
-function saveBalance(){
- localStorage.setItem('zombix_demo_balance',String(balance));
- updateBalance();
+function fmt(n){return Math.floor(n).toLocaleString("ru-RU")}
+function update(){
+ $("balance").textContent=fmt(balance);
+ $("bet").textContent=bet;
+ $("totalwin").textContent=fmt(totalwin)+" Z";
+ save();
 }
-function updateBalance(){
- document.getElementById('balance').textContent=balance+' Z-Coins';
- document.getElementById('slotBalance').textContent=balance+' ZC';
- document.getElementById('walletBalance').textContent=balance+' Z-Coins';
- document.getElementById('profileBalance').textContent='Баланс: '+balance+' Z-Coins';
-}
-
-/* НАВИГАЦИЯ */
-function show(id,btn){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
- if(btn)btn.classList.add('active');
-}
-function openCandy(){
- show('candy');
- updateBalance();
-}
-
-/* ЗАГРУЗКА */
-let load=0;
-let loadTimer=setInterval(()=>{
- load+=5;
- document.getElementById('loadfill').style.width=load+'%';
- document.getElementById('percent').textContent=load+'%';
- if(load>=100){
-  clearInterval(loadTimer);
-  setTimeout(()=>document.getElementById('loading').classList.add('hide'),350);
- }
-},65);
-
-/* СЛОТ */
-const symbols=['🍒','🍋','🍇','🍉','🍭','🍬','🍓','⭐'];
-const reels=document.getElementById('reels');
-const result=document.getElementById('result');
-const spinBtn=document.getElementById('spinBtn');
-
-function setBet(value,button){
- if(busy)return;
- bet=value;
- document.querySelectorAll('.bet').forEach(b=>b.classList.remove('selected'));
- button.classList.add('selected');
-}
-
-function randomSymbol(){
- return symbols[Math.floor(Math.random()*symbols.length)];
-}
-
-function spin(){
- if(busy)return;
- if(balance<bet){
-  result.textContent='Недостаточно Z-Coins! Выбери меньшую ставку.';
-  return;
- }
-
- busy=true;
- spinBtn.disabled=true;
- balance-=bet;
- saveBalance();
- result.textContent='🍬 Барабаны вращаются...';
-
- const cells=[...document.querySelectorAll('.reel')];
- cells.forEach(cell=>cell.classList.add('spinning'));
-
- let ticks=0;
- const animation=setInterval(()=>{
-  cells.forEach(cell=>cell.textContent=randomSymbol());
-  ticks++;
-  if(ticks>=12){
-   clearInterval(animation);
-   finishSpin(cells);
+function pick(){return symbols[Math.floor(Math.random()*symbols.length)]}
+function draw(){
+ reels.forEach(r=>{
+  r.innerHTML="";
+  for(let i=0;i<3;i++){
+   const c=document.createElement("div");
+   c.className="cell";c.textContent=pick().e;r.appendChild(c);
   }
- },100);
-}
-
-function finishSpin(cells){
- const grid=Array.from({length:3},(_,row)=>
-  Array.from({length:5},(_,col)=>randomSymbol())
- );
-
- cells.forEach((cell,index)=>{
-  const row=Math.floor(index/5);
-  const col=index%5;
-  cell.textContent=grid[row][col];
-  cell.classList.remove('spinning');
  });
-
- let win=0;
- const middle=grid[1];
-
- const multipliers={
-  '🍭':10,'🍓':8,'🍇':6,'🍒':5,'🍬':4,'🍋':3,'🍉':3
+}
+draw();update();
+document.querySelectorAll("[data-bet]").forEach(b=>{
+ b.onclick=()=>{
+  if(busy)return;
+  bet=Number(b.dataset.bet);
+  document.querySelectorAll("[data-bet]").forEach(x=>x.classList.toggle("active",x===b));
+  update();
  };
-
- // Пять одинаковых символов на центральной линии
- for(const symbol of Object.keys(multipliers)){
-  let count=0;
-  for(const item of middle){
-   if(item===symbol)count++;
-   else break;
-  }
-  if(count>=3){
-   let multiplier=count===5?multipliers[symbol]:
-    count===4?Math.ceil(multipliers[symbol]*0.5):2;
-   win=Math.max(win,bet*multiplier);
-  }
+});
+function evaluate(grid){
+ let win=0;
+ // Пять горизонтальных линий и три вертикальные линии
+ for(let row=0;row<3;row++){
+  const line=grid.map(col=>col[row]);
+  let count=1;
+  while(count<5&&line[count].e===line[0].e)count++;
+  if(count>=3)win+=bet*line[0].m*(count===3?1:count===4?2:5);
  }
-
- // Три и более звёзд в любом месте
- const stars=grid.flat().filter(s=>s==='⭐').length;
- if(stars>=3)win=Math.max(win,bet*3);
-
- balance+=win;
- saveBalance();
-
+ for(let col=0;col<5;col++){
+  const line=grid[col].map(x=>x);
+  let count=1;
+  while(count<3&&line[count].e===line[0].e)count++;
+  if(count===3)win+=bet*line[0].m;
+ }
+ return Math.floor(win);
+}
+function addHistory(w){
+ const item=document.createElement("div");
+ item.className="history-item";
+ item.innerHTML=`<span>${new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})} · ставка ${bet} Z</span><strong class="${w>0?"wintext":"losstext"}">${w>0?"+"+fmt(w):"−"+fmt(bet)} Z</strong>`;
+ $("history").prepend(item);
+ while($("history").children.length>8)$("history").lastChild.remove();
+}
+async function spin(){
+ if(busy)return;
+ if(balance<bet){$("message").textContent="Недостаточно Z-Coins";return;}
+ busy=true;$("spin").disabled=true;
+ balance-=bet;update();
+ $("message").textContent="Барабаны вращаются...";
+ const grid=Array.from({length:5},()=>[]);
+ const delays=[650,1000,1350,1700,2050];
+ reels.forEach(r=>r.classList.add("spinning"));
+ const tasks=reels.map((r,col)=>new Promise(resolve=>{
+  let ticks=0;
+  const timer=setInterval(()=>{
+   r.innerHTML="";
+   for(let row=0;row<3;row++){
+    const c=document.createElement("div");
+    c.className="cell";c.textContent=pick().e;r.appendChild(c);
+   }
+   ticks++;
+   if(ticks>=Math.ceil(delays[col]/65)){
+    clearInterval(timer);
+    grid[col]=Array.from({length:3},()=>pick());
+    r.innerHTML="";
+    grid[col].forEach(s=>{
+     const c=document.createElement("div");c.className="cell";c.textContent=s.e;r.appendChild(c);
+    });
+    r.classList.remove("spinning");
+    resolve();
+   }
+  },65);
+ }));
+ await Promise.all(tasks);
+ const win=evaluate(grid);
  if(win>0){
-  result.textContent='🎉 ПОБЕДА! +' + win + ' Z-Coins';
+  balance+=win;totalwin+=win;
+  $("message").textContent="🎉 ПОБЕДА! +" +fmt(win)+" Z";
+  $("lastwin").textContent=fmt(win)+" Z";
  }else{
-  result.textContent='Попробуй ещё раз! 🍬';
+  $("message").textContent="В этот раз без выигрыша. Попробуй ещё!";
+  $("lastwin").textContent="0 Z";
  }
-
- addHistory(grid,bet,win);
- busy=false;
- spinBtn.disabled=false;
+ addHistory(win);update();
+ busy=false;$("spin").disabled=false;
 }
-
-function addHistory(grid,stake,win){
- const history=document.getElementById('history');
- if(history.children.length===1&&history.textContent.includes('пуста')){
-  history.innerHTML='';
- }
- const line=document.createElement('div');
- line.className='history-item';
- line.textContent=grid[1].join(' ')+' | Ставка: '+stake+' | '+(win>0?'+'+win:'0')+' ZC';
- history.prepend(line);
- while(history.children.length>8)history.lastElementChild.remove();
-}
-
-updateBalance();
+$("spin").onclick=spin;
 </script>
 </body>
 </html>
