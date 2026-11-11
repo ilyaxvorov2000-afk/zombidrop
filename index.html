@@ -4,230 +4,273 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#100d12">
 <title>ZombiXCasino</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#100d12;color:white;font-family:Arial,sans-serif}
-button{border:0;cursor:pointer;color:white;font-weight:bold}
-.header{padding:18px;background:#19141c;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #52222b}
-.logo{font-size:23px;font-weight:900;color:#ff454f}
-.balance{background:#2b2027;padding:10px 14px;border-radius:12px;color:#ffd36b}
-.hero{margin:15px;padding:24px 16px;border-radius:20px;background:linear-gradient(140deg,#591d2a,#17121a 75%);text-align:center}
-.hero h1{font-size:28px;margin:5px;color:#ff515a}
-.hero p{color:#c8b8bd;font-size:13px}
-.section{padding:15px}
-.title{font-size:20px;font-weight:bold;margin-bottom:14px}
-.card{background:#201a23;border:1px solid #382832;border-radius:17px;padding:17px;margin-bottom:13px}
-.slot{background:radial-gradient(circle,#51212e,#160f17 75%);padding:20px;border-radius:20px;text-align:center}
-.reels{display:flex;gap:9px;justify-content:center;margin:22px 0}
-.reel{background:#fff0dc;color:#26131a;width:85px;height:95px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 5px 0 #9b5961}
-.spin{background:linear-gradient(90deg,#ff3949,#a71937);padding:17px 45px;border-radius:13px;font-size:18px;width:100%;margin-top:12px}
-.secondary{background:#39232d;padding:14px;border-radius:12px;width:100%;margin-top:9px}
-input{background:#120e14;border:1px solid #69404b;color:white;padding:13px;border-radius:10px;width:100%;font-size:16px;margin:8px 0}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#19141c;display:flex;justify-content:space-around;padding:12px 3px;border-top:1px solid #43252e;z-index:5}
-.nav button{background:none;color:#c5aeb7;font-size:12px}
-.nav button.active{color:#ff5964}
-.page{display:none;padding-bottom:85px}
-.page.active{display:block}
-.game-result{min-height:25px;color:#ffd36b;margin-top:12px;font-weight:bold}
-.profile-head{display:flex;align-items:center;gap:15px}
-.avatar{width:65px;height:65px;border-radius:50%;background:#5c202d;display:grid;place-items:center;font-size:35px}
-.green{color:#5be69b}
-.package{display:flex;justify-content:space-between;align-items:center;margin:10px 0;padding:13px;background:#2b202a;border-radius:12px}
-.package button{background:#a92743;padding:10px 13px;border-radius:9px}
-.footer{text-align:center;color:#776c76;font-size:11px;padding:15px}
-.loader{position:fixed;inset:0;background:#100d12;z-index:20;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.loader h1{color:#ff4654;font-size:35px;letter-spacing:3px}
-.loader p{color:#b9a9ae}
-@keyframes pulse{50%{transform:scale(1.12);opacity:.6}}
-.loader h1{animation:pulse 1.3s infinite}
-.spinning{animation:pulse .18s infinite}
+body{margin:0;background:#09090d;color:white;font-family:Arial,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer}
+.app{max-width:520px;margin:auto;padding:16px}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+.logo{font-size:24px;font-weight:1000;color:#ff3434;text-shadow:0 0 15px #c00}
+.balance{background:#19191f;border:1px solid #383840;border-radius:14px;padding:10px 13px;font-weight:bold}
+.balance span{color:#ffd34e}
+.hero{margin:12px 0 18px;padding:22px 16px;border:1px solid #612020;border-radius:20px;background:radial-gradient(ellipse at top,#5c151b,#191015 65%,#100d12);text-align:center}
+.hero .monster{font-size:54px}
+.hero h1{font-size:27px;margin:8px 0;color:#ff4545}
+.hero p{color:#c8baba;font-size:13px;margin:5px}
+.tag{display:inline-block;background:#35151a;color:#ff8b8b;padding:6px 12px;border-radius:20px;font-size:11px}
+.game{background:linear-gradient(145deg,#21171b,#100e12);border:1px solid #5b292d;border-radius:22px;padding:14px;box-shadow:0 12px 35px #0009}
+.game-title{text-align:center;font-weight:900;font-size:19px;color:#ffd34e;margin:4px 0 12px}
+.machine{background:#08080b;border:3px solid #9b3535;border-radius:15px;padding:9px;box-shadow:inset 0 0 25px #7b1515}
+.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.reel{display:flex;flex-direction:column;gap:5px}
+.cell{height:65px;background:linear-gradient(#29232a,#151219);border:1px solid #51434c;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px;transition:transform .15s}
+.cell.win{background:linear-gradient(#72501a,#3d2710);border:2px solid #ffda59;box-shadow:0 0 14px #ffbb28;transform:scale(1.04)}
+.machine.spinning .cell{animation:shake .12s infinite alternate}
+@keyframes shake{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
+.info{text-align:center;color:#d3bfc1;font-size:12px;margin:12px 0;min-height:18px}
+.result{text-align:center;color:#ffd34e;font-weight:bold;font-size:18px;min-height:24px}
+.controls{display:flex;gap:9px;align-items:center;justify-content:center;margin-top:12px}
+.smallbtn{background:#29252c;border:1px solid #55434a;color:white;border-radius:12px;padding:12px 15px;font-size:20px}
+.spin{flex:1;background:linear-gradient(135deg,#ff4949,#a80019);border:0;border-radius:14px;padding:15px 8px;color:white;font-weight:1000;font-size:17px;box-shadow:0 5px 0 #65000c}
+.spin:disabled{opacity:.5}
+.bet{text-align:center;color:#ddd;font-size:13px;margin-top:12px}
+.bet strong{color:#ffd34e}
+.rules{margin-top:14px;background:#17151b;border:1px solid #343039;border-radius:16px;padding:14px}
+.rules h3{margin:0 0 9px;color:#ff6868}
+.rules p{font-size:12px;line-height:1.55;color:#c8c3ca;margin:5px 0}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.nav button{background:#19171d;border:1px solid #39343c;color:#ddd;border-radius:12px;padding:12px 4px;font-size:12px}
+.nav button.active{border-color:#e33;color:#ff7777}
+.panel{display:none;background:#17151b;border:1px solid #39343c;border-radius:16px;padding:16px;margin-top:10px}
+.panel.show{display:block}
+.panel h2{color:#ff6868;margin-top:0}
+.history{font-size:12px;color:#ccc;line-height:1.8}
+.footer{text-align:center;color:#69636d;font-size:10px;margin:18px 0}
 </style>
 </head>
 <body>
+<div class="app">
+ <header class="header">
+  <div class="logo">🧟 ZombiXCasino</div>
+  <div class="balance">🪙 <span id="balance">0</span> Z</div>
+ </header>
 
-<div class="loader" id="loader">
-<h1>🧟 ZOMBIX</h1>
-<p>ЗАГРУЗКА АПОКАЛИПСИСА...</p>
-</div>
+ <section class="hero">
+  <div class="monster">🧟‍♂️</div>
+  <div class="tag">ZOMBIE WORLD • CASINO</div>
+  <h1>ВЫЖИВИ И ВЫИГРАЙ</h1>
+  <p>Добро пожаловать в мир Z-Coins!</p>
+ </section>
 
-<header class="header">
-<div class="logo">🧟 ZombiXCasino</div>
-<div class="balance">🪙 <span id="topBalance">0</span> Z</div>
-</header>
+ <nav class="nav">
+  <button class="active" onclick="showPanel('casino',this)">🎰 Казино</button>
+  <button onclick="showPanel('profile',this)">👤 Профиль</button>
+  <button onclick="showPanel('history',this)">📜 История</button>
+ </nav>
 
-<main>
-<div class="page active" id="home">
-<div class="hero">
-<h1>ZOMBIX CASINO</h1>
-<p>ТВОЯ ИГРА. ТВОИ ПРАВИЛА.</p>
-<div style="font-size:45px;margin:15px">🧟‍♂️</div>
-<strong>ДОБРО ПОЖАЛОВАТЬ В АПОКАЛИПСИС</strong>
-</div>
-<div class="section">
-<div class="title">🔥 Игровой зал</div>
-<div class="card" onclick="showPage('slots')">
-<div style="font-size:48px;text-align:center">🎰</div>
-<strong>Zombie Fruits</strong>
-<p style="color:#bbaab2">Три барабана. Виртуальные Z-Coins.</p>
-<button class="spin">ИГРАТЬ</button>
-</div>
-<div class="card">
-<div style="font-size:35px">🎁</div>
-<strong>Скоро: Кейсы ZombiX</strong>
-<p style="color:#bbaab2">Новые игровые режимы готовятся.</p>
-</div>
-</div>
-</div>
+ <main id="casino">
+  <section class="game">
+   <div class="game-title">🍬 CANDY ZOMBIE 🍬</div>
+   <div class="machine" id="machine">
+    <div class="reels" id="reels"></div>
+   </div>
+   <div class="info" id="message">Выбери ставку и нажми SPIN</div>
+   <div class="result" id="result">Удачи, выживший!</div>
+   <div class="controls">
+    <button class="smallbtn" onclick="changeBet(-1)">−</button>
+    <button class="spin" id="spin" onclick="spin()">🎰 КРУТИТЬ</button>
+    <button class="smallbtn" onclick="changeBet(1)">+</button>
+   </div>
+   <div class="bet">СТАВКА: <strong id="bet">10</strong> Z • <span id="free">Бесплатных вращений: 0</span></div>
+  </section>
 
-<div class="page" id="slots">
-<div class="section">
-<div class="title">🎰 Zombie Fruits</div>
-<div class="slot">
-<div style="color:#ffd36b;font-weight:bold">ZOMBIE JACKPOT</div>
-<div class="reels">
-<div class="reel" id="r1">🍒</div>
-<div class="reel" id="r2">🍋</div>
-<div class="reel" id="r3">💎</div>
-</div>
-<div style="color:#ddd">Ставка Z-Coins</div>
-<input id="bet" type="number" value="100" min="1">
-<button class="spin" id="spinBtn" onclick="spin()">SPIN</button>
-<div class="game-result" id="result">Удачи в игре!</div>
-</div>
-</div>
-</div>
+  <section class="rules">
+   <h3>📖 Как играть</h3>
+   <p>Собирай одинаковые символы слева направо на активных линиях.</p>
+   <p>🃏 Wild заменяет обычные символы.</p>
+   <p>💀 Три или больше Scatter дают бесплатные вращения.</p>
+   <p>🍬 Выигрыши начисляются в виртуальных Z-Coins.</p>
+  </section>
+ </main>
 
-<div class="page" id="wallet">
-<div class="section">
-<div class="title">💰 Мой кошелёк</div>
-<div class="card" style="text-align:center">
-<p>ТВОЙ БАЛАНС</p>
-<div style="font-size:38px;color:#ffd36b;font-weight:bold"><span id="walletBalance">0</span> Z</div>
-</div>
-<div class="card">
-<strong>⭐ Пополнение через Telegram Stars</strong>
-<p style="color:#bbaab2;font-size:13px">Покупка виртуальных Z-Coins.</p>
-<div class="package"><span>100 Z — 75 ⭐</span><button onclick="buyStars()">Выбрать</button></div>
-<div class="package"><span>500 Z — 300 ⭐</span><button onclick="buyStars()">Выбрать</button></div>
-<div class="package"><span>1 000 Z — 650 ⭐</span><button onclick="buyStars()">Выбрать</button></div>
-<p id="paymentMessage" style="color:#ffd36b;font-size:12px"></p>
-</div>
-<div class="card">
-<strong>История операций</strong>
-<div id="history" style="color:#bbaab2;font-size:13px;margin-top:12px">Пока операций нет</div>
-</div>
-</div>
-</div>
+ <section class="panel" id="profile">
+  <h2>👤 Профиль игрока</h2>
+  <p>Игрок: <strong id="username">Выживший</strong></p>
+  <p>Ваш баланс: <strong id="profileBalance">0 Z</strong></p>
+  <p>Всего вращений: <strong id="spinsCount">0</strong></p>
+  <p>Всего выиграно: <strong id="winsCount">0 Z</strong></p>
+  <p style="color:#999;font-size:11px">Z-Coins — виртуальная игровая валюта. Не имеют денежной стоимости и не выводятся.</p>
+ </section>
 
-<div class="page" id="profile">
-<div class="section">
-<div class="title">👤 Мой профиль</div>
-<div class="card">
-<div class="profile-head">
-<div class="avatar">🧟</div>
-<div>
-<strong id="username">Игрок</strong>
-<div class="green" id="role">Игрок</div>
-</div>
-</div>
-<hr style="border-color:#49323d;margin:17px 0">
-<p>Telegram ID: <strong id="telegramId">Не подключен</strong></p>
-<p>Аккаунт: <strong class="green" id="connection">Не подключен</strong></p>
-<p>Баланс: <strong id="profileBalance">0 Z</strong></p>
-</div>
-<div class="card">
-<strong>Настройки аккаунта</strong>
-<p style="color:#bbaab2;font-size:13px">ZombiXCasino — виртуальная игровая валюта.</p>
-</div>
-</div>
-</div>
-</main>
+ <section class="panel" id="history">
+  <h2>📜 История игр</h2>
+  <div class="history" id="historyList">Пока игр нет.</div>
+ </section>
 
-<nav class="nav">
-<button class="active" onclick="showPage('home',this)">🏠<br>Главная</button>
-<button onclick="showPage('slots',this)">🎰<br>Слоты</button>
-<button onclick="showPage('wallet',this)">💰<br>Кошелёк</button>
-<button onclick="showPage('profile',this)">👤<br>Профиль</button>
-</nav>
+ <div class="footer">ZombiXCasino • Virtual coins only • 2026</div>
+</div>
 
 <script>
-const OWNER_ID = 8883318440;
-const tg = window.Telegram?.WebApp;
+const tg=window.Telegram?.WebApp;
 tg?.ready();
 tg?.expand();
 
-const tgUser = tg?.initDataUnsafe?.user;
-const isOwner = String(tgUser?.id || '') === String(OWNER_ID);
+const symbols=["🍬","🍭","🧠","🧟","💎","💀","🃏"];
+const weights=[25,22,18,15,10,7,3];
+const payouts={"🍬":2,"🍭":3,"🧠":4,"🧟":6,"💎":10,"💀":15,"🃏":0};
+const paylines=[
+[1,1,1,1,1],[0,0,0,0,0],[2,2,2,2,2],
+[0,1,2,1,0],[2,1,0,1,2],
+[0,0,1,2,2],[2,2,1,0,0],
+[1,0,0,0,1],[1,2,2,2,1],
+[0,1,1,1,0],[2,1,1,1,2],
+[0,1,0,1,0],[2,1,2,1,2],
+[1,0,1,0,1],[1,2,1,2,1],
+[0,2,0,2,0],[2,0,2,0,2],
+[0,2,2,2,0],[2,0,0,0,2],
+[1,1,0,1,1]
+];
 
-let balance = Number(localStorage.getItem('zombix_demo_balance'));
-if (!Number.isFinite(balance)) balance = isOwner ? 10000 : 0;
+const ownerId="8883318440";
+const playerId=String(tg?.initDataUnsafe?.user?.id||"");
+const isOwner=playerId===ownerId;
 
-let history = JSON.parse(localStorage.getItem('zombix_history') || '[]');
+let saved=JSON.parse(localStorage.getItem("zombix_player_"+(playerId||"guest"))||"null");
+let balance=saved?.balance ?? (isOwner?10000:0);
+let bet=10,freeSpins=0,spinsCount=saved?.spinsCount||0,winsCount=saved?.winsCount||0;
+let history=saved?.history||[];
+let busy=false;
 
 function save(){
- localStorage.setItem('zombix_demo_balance',balance);
- localStorage.setItem('zombix_history',JSON.stringify(history));
- render();
+ localStorage.setItem("zombix_player_"+(playerId||"guest"),JSON.stringify({balance,spinsCount,winsCount,history}));
 }
-function render(){
- ['topBalance','walletBalance','profileBalance'].forEach(id=>{
-  const el=document.getElementById(id);
-  if(el) el.textContent=balance.toLocaleString('ru-RU')+(id==='profileBalance'?' Z':'');
- });
- document.getElementById('role').textContent=isOwner?'Владелец':'Игрок';
- document.getElementById('username').textContent=tgUser?.username?'@'+tgUser.username:(isOwner?'GGGbenz77':'Игрок');
- document.getElementById('telegramId').textContent=tgUser?.id || 'Не подключен';
- document.getElementById('connection').textContent=tgUser?'Telegram открыт':'Откройте через Telegram';
- document.getElementById('history').innerHTML=history.length?history.map(x=>'<div style="padding:7px 0;border-bottom:1px solid #44313a">'+x+'</div>').join(''):'Пока операций нет';
+function update(){
+ document.getElementById("balance").textContent=balance.toLocaleString("ru-RU");
+ document.getElementById("profileBalance").textContent=balance.toLocaleString("ru-RU")+" Z";
+ document.getElementById("bet").textContent=bet;
+ document.getElementById("free").textContent="Бесплатных вращений: "+freeSpins;
+ document.getElementById("spinsCount").textContent=spinsCount;
+ document.getElementById("winsCount").textContent=winsCount.toLocaleString("ru-RU")+" Z";
+ document.getElementById("username").textContent=tg?.initDataUnsafe?.user?.first_name||"Выживший";
+ document.getElementById("historyList").innerHTML=history.length?history.slice(0,15).map(x=>x).join("<br>"):"Пока игр нет.";
+ save();
 }
-function showPage(id,btn){
- document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
- if(btn)btn.classList.add('active');
- else document.querySelectorAll('.nav button')[['home','slots','wallet','profile'].indexOf(id)].classList.add('active');
+function makeGrid(){
+ const grid=[];
+ for(let c=0;c<5;c++){
+  grid[c]=[];
+  for(let r=0;r<3;r++)grid[c][r]=randomSymbol();
+ }
+ return grid;
+}
+function randomSymbol(){
+ let n=Math.random()*100;
+ for(let i=0;i<weights.length;i++){n-=weights[i];if(n<=0)return symbols[i]}
+ return symbols[0];
+}
+function render(grid){
+ const root=document.getElementById("reels");
+ root.innerHTML="";
+ for(let r=0;r<3;r++){
+  for(let c=0;c<5;c++){
+   const cell=document.createElement("div");
+   cell.className="cell";
+   cell.id="cell-"+c+"-"+r;
+   cell.textContent=grid[c][r];
+   root.appendChild(cell);
+  }
+ }
+}
+let grid=makeGrid();
+render(grid);
+update();
+
+function changeBet(dir){
+ if(busy||freeSpins>0)return;
+ bet=Math.max(10,Math.min(500,bet+dir*10));
+ update();
+}
+function lineSymbol(line,g){
+ for(let c=0;c<5;c++){
+  const s=g[c][line[c]];
+  if(s!=="🃏")return s;
+ }
+ return "🃏";
+}
+function evaluate(g){
+ let total=0,winning=[];
+ for(const line of paylines){
+  let target=lineSymbol(line,g),count=0;
+  for(let c=0;c<5;c++){
+   const s=g[c][line[c]];
+   if(s===target||s==="🃏")count++;else break;
+  }
+  if(count>=3&&target!=="🃏"){
+   let multiplier=payouts[target]||0;
+   let prize=Math.floor(bet*multiplier*(count===3?1:count===4?3:8)/20);
+   if(prize>0){total+=prize;for(let c=0;c<count;c++)winning.push([c,line[c]])}
+  }
+ }
+ let scatters=0;
+ g.forEach(col=>col.forEach(s=>{if(s==="💀")scatters++}));
+ if(scatters>=3){freeSpins+=scatters===3?5:scatters===4?8:12}
+ return {total,winning,scatters};
 }
 function spin(){
- const bet=Math.floor(Number(document.getElementById('bet').value));
- if(!Number.isFinite(bet)||bet<1){result('Введите корректную ставку');return;}
- if(bet>balance){result('Недостаточно Z-Coins');return;}
- const symbols=['🍒','🍋','🍉','🍇','💎','7️⃣','🧟'];
- const reels=[r1,r2,r3];
- const btn=document.getElementById('spinBtn');
- btn.disabled=true;
- reels.forEach(x=>x.classList.add('spinning'));
+ if(busy)return;
+ if(freeSpins<=0&&balance<bet){
+  document.getElementById("message").textContent="Недостаточно Z-Coins!";
+  return;
+ }
+ busy=true;
+ document.getElementById("spin").disabled=true;
+ document.getElementById("machine").classList.add("spinning");
+ document.getElementById("result").textContent="";
+ document.getElementById("message").textContent="Барабаны вращаются...";
+ if(freeSpins>0)freeSpins--;else balance-=bet;
+ spinsCount++;
+ const finalGrid=makeGrid();
  let ticks=0;
- const timer=setInterval(()=>{
-  reels.forEach(x=>x.textContent=symbols[Math.floor(Math.random()*symbols.length)]);
+ const animation=setInterval(()=>{
+  render(makeGrid());
   ticks++;
   if(ticks>=12){
-   clearInterval(timer);
-   reels.forEach(x=>x.classList.remove('spinning'));
-   const a=symbols[Math.floor(Math.random()*symbols.length)];
-   const b=symbols[Math.floor(Math.random()*symbols.length)];
-   const c=symbols[Math.floor(Math.random()*symbols.length)];
-   r1.textContent=a;r2.textContent=b;r3.textContent=c;
-   let prize=0;
-   if(a===b&&b===c)prize=bet*10;
-   else if(a===b||b===c||a===c)prize=bet*2;
-   balance=balance-bet+prize;
-   history.unshift((prize?'Выигрыш +':'Ставка -')+(prize?prize:bet)+' Z');
-   history=history.slice(0,20);
-   save();
-   result(prize?'🎉 ВЫИГРЫШ '+prize+' Z':'Попробуй ещё раз!');
-   btn.disabled=false;
+   clearInterval(animation);
+   grid=finalGrid;
+   render(grid);
+   document.getElementById("machine").classList.remove("spinning");
+   finishSpin();
   }
  },100);
 }
-function result(s){document.getElementById('result').textContent=s}
-function buyStars(){
- document.getElementById('paymentMessage').textContent='Оплата Stars пока не подключена. Нужен Telegram-бот и серверная проверка платежей.';
+function finishSpin(){
+ const outcome=evaluate(grid);
+ const win=outcome.total;
+ if(win>0){balance+=win;winsCount+=win}
+ outcome.winning.forEach(([c,r])=>{
+  const el=document.getElementById("cell-"+c+"-"+r);
+  if(el)el.classList.add("win");
+ });
+ let msg=win>0?"🎉 ВЫИГРЫШ: +"+win+" Z":"В этот раз без выигрыша";
+ if(outcome.scatters>=3)msg+=" • 💀 БОНУС!";
+ document.getElementById("result").textContent=msg;
+ document.getElementById("message").textContent=outcome.scatters>=3?"Ты получил бесплатные вращения!":"Попробуй ещё раз!";
+ history.unshift(new Date().toLocaleTimeString("ru-RU")+" — "+(win>0?"+"+win+" Z":"−"+(freeSpins>=0?bet:0)+" Z"));
+ history=history.slice(0,30);
+ update();
+ busy=false;
+ document.getElementById("spin").disabled=false;
 }
-setTimeout(()=>document.getElementById('loader').style.display='none',1800);
-render();
+function showPanel(name,btn){
+ document.getElementById("casino").style.display=name==="casino"?"block":"none";
+ document.querySelectorAll(".panel").forEach(p=>p.classList.remove("show"));
+ if(name!=="casino")document.getElementById(name).classList.add("show");
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ update();
+}
 </script>
 </body>
 </html>
