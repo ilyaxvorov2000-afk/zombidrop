@@ -4,201 +4,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#10090b">
-<title>ZombiXCasino — Candy Slots</title>
+<meta name="theme-color" content="#100d12">
+<title>ZombiXCasino</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#42151e,#10090b 65%);color:#fff;font-family:Arial,sans-serif;min-height:100vh}
-button{font:inherit;cursor:pointer;border:0;color:white}
-header{display:flex;justify-content:space-between;align-items:center;padding:17px}
-.logo{font-size:22px;font-weight:900;color:#ff4b61;text-shadow:0 0 15px #ff183b}
-.balance{background:#24151a;border:1px solid #8e293c;padding:10px 14px;border-radius:14px;font-weight:bold}
-main{max-width:520px;margin:auto;padding:8px 14px 35px}
-h1{text-align:center;font-size:27px;margin:16px 0 5px}
-.sub{text-align:center;color:#bd9da4;font-size:13px;margin-bottom:20px}
-.machine{background:linear-gradient(145deg,#38141f,#170c12);border:2px solid #a72e47;border-radius:25px;padding:13px;box-shadow:0 0 30px #e3224630}
-.machine-top{text-align:center;color:#ff8294;font-weight:900;letter-spacing:3px;padding:9px}
-.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:#09070a;padding:8px;border-radius:15px;border:2px solid #6d2738}
-.reel{height:178px;display:grid;grid-template-rows:repeat(3,1fr);gap:4px;overflow:hidden}
-.cell{background:linear-gradient(145deg,#fff4e8,#e7b9ad);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:inset 0 0 8px #8a3540;color:#241016}
-.cell.win{background:#ffe08b;box-shadow:0 0 15px #ffbd32;transform:scale(1.03)}
-.reel.spinning .cell{filter:blur(2px)}
-.payline{text-align:center;color:#ffc1cb;font-size:11px;margin-top:10px}
-.controls{margin-top:17px;background:#211219;border-radius:18px;padding:15px}
-.betrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.small{color:#c5a8af;font-size:12px}
-.betvalue{font-size:24px;font-weight:900;color:#ffd078}
-.betbuttons{display:flex;gap:7px;margin-top:12px}
-.betbuttons button{flex:1;background:#44202c;border:1px solid #793347;border-radius:10px;padding:11px 3px}
-.betbuttons button.active{background:#a72c48;border-color:#ff8197}
-.spin{width:100%;margin-top:15px;padding:17px;border-radius:14px;background:linear-gradient(90deg,#c51f43,#ff5266);font-size:19px;font-weight:900;box-shadow:0 5px 0 #72142b,0 0 20px #ff31504a}
-.spin:disabled{opacity:.5}
-.message{text-align:center;min-height:27px;margin-top:13px;color:#ffd078;font-weight:bold}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.info div{background:#211219;padding:13px;border-radius:13px;text-align:center}
-.info strong{display:block;font-size:18px;margin-top:5px}
-.history{margin-top:18px;background:#211219;border-radius:16px;padding:14px}
-.history h3{margin:0 0 10px;font-size:15px}
-.history-item{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #ffffff12;font-size:13px}
-.wintext{color:#75e5a2}.losstext{color:#ff788c}
-footer{text-align:center;color:#765c64;font-size:11px;margin-top:20px}
-@media(max-width:380px){.reel{height:150px}.cell{font-size:25px}.reels{gap:3px;padding:5px}}
+body{margin:0;background:#100d12;color:white;font-family:Arial,sans-serif}
+button{border:0;cursor:pointer;color:white;font-weight:bold}
+.header{padding:18px;background:#19141c;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #52222b}
+.logo{font-size:23px;font-weight:900;color:#ff454f}
+.balance{background:#2b2027;padding:10px 14px;border-radius:12px;color:#ffd36b}
+.hero{margin:15px;padding:24px 16px;border-radius:20px;background:linear-gradient(140deg,#591d2a,#17121a 75%);text-align:center}
+.hero h1{font-size:28px;margin:5px;color:#ff515a}
+.hero p{color:#c8b8bd;font-size:13px}
+.section{padding:15px}
+.title{font-size:20px;font-weight:bold;margin-bottom:14px}
+.card{background:#201a23;border:1px solid #382832;border-radius:17px;padding:17px;margin-bottom:13px}
+.slot{background:radial-gradient(circle,#51212e,#160f17 75%);padding:20px;border-radius:20px;text-align:center}
+.reels{display:flex;gap:9px;justify-content:center;margin:22px 0}
+.reel{background:#fff0dc;color:#26131a;width:85px;height:95px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 5px 0 #9b5961}
+.spin{background:linear-gradient(90deg,#ff3949,#a71937);padding:17px 45px;border-radius:13px;font-size:18px;width:100%;margin-top:12px}
+.secondary{background:#39232d;padding:14px;border-radius:12px;width:100%;margin-top:9px}
+input{background:#120e14;border:1px solid #69404b;color:white;padding:13px;border-radius:10px;width:100%;font-size:16px;margin:8px 0}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#19141c;display:flex;justify-content:space-around;padding:12px 3px;border-top:1px solid #43252e;z-index:5}
+.nav button{background:none;color:#c5aeb7;font-size:12px}
+.nav button.active{color:#ff5964}
+.page{display:none;padding-bottom:85px}
+.page.active{display:block}
+.game-result{min-height:25px;color:#ffd36b;margin-top:12px;font-weight:bold}
+.profile-head{display:flex;align-items:center;gap:15px}
+.avatar{width:65px;height:65px;border-radius:50%;background:#5c202d;display:grid;place-items:center;font-size:35px}
+.green{color:#5be69b}
+.package{display:flex;justify-content:space-between;align-items:center;margin:10px 0;padding:13px;background:#2b202a;border-radius:12px}
+.package button{background:#a92743;padding:10px 13px;border-radius:9px}
+.footer{text-align:center;color:#776c76;font-size:11px;padding:15px}
+.loader{position:fixed;inset:0;background:#100d12;z-index:20;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.loader h1{color:#ff4654;font-size:35px;letter-spacing:3px}
+.loader p{color:#b9a9ae}
+@keyframes pulse{50%{transform:scale(1.12);opacity:.6}}
+.loader h1{animation:pulse 1.3s infinite}
+.spinning{animation:pulse .18s infinite}
 </style>
 </head>
 <body>
-<header>
- <div class="logo">☣ ZombiXCasino</div>
- <div class="balance">🪙 <span id="balance">10 000</span> Z</div>
+
+<div class="loader" id="loader">
+<h1>🧟 ZOMBIX</h1>
+<p>ЗАГРУЗКА АПОКАЛИПСИСА...</p>
+</div>
+
+<header class="header">
+<div class="logo">🧟 ZombiXCasino</div>
+<div class="balance">🪙 <span id="topBalance">0</span> Z</div>
 </header>
+
 <main>
- <h1>🍬 CANDY SLOTS</h1>
- <div class="sub">ZOMBIE EDITION · 5 БАРАБАНОВ</div>
+<div class="page active" id="home">
+<div class="hero">
+<h1>ZOMBIX CASINO</h1>
+<p>ТВОЯ ИГРА. ТВОИ ПРАВИЛА.</p>
+<div style="font-size:45px;margin:15px">🧟‍♂️</div>
+<strong>ДОБРО ПОЖАЛОВАТЬ В АПОКАЛИПСИС</strong>
+</div>
+<div class="section">
+<div class="title">🔥 Игровой зал</div>
+<div class="card" onclick="showPage('slots')">
+<div style="font-size:48px;text-align:center">🎰</div>
+<strong>Zombie Fruits</strong>
+<p style="color:#bbaab2">Три барабана. Виртуальные Z-Coins.</p>
+<button class="spin">ИГРАТЬ</button>
+</div>
+<div class="card">
+<div style="font-size:35px">🎁</div>
+<strong>Скоро: Кейсы ZombiX</strong>
+<p style="color:#bbaab2">Новые игровые режимы готовятся.</p>
+</div>
+</div>
+</div>
 
- <section class="machine">
-  <div class="machine-top">✦ CANDY APOCALYPSE ✦</div>
-  <div class="reels" id="reels">
-   <div class="reel"></div><div class="reel"></div><div class="reel"></div><div class="reel"></div><div class="reel"></div>
-  </div>
-  <div class="payline">ВЫИГРЫШ — ТРИ И БОЛЕЕ ОДИНАКОВЫХ СИМВОЛА В РЯДУ</div>
- </section>
+<div class="page" id="slots">
+<div class="section">
+<div class="title">🎰 Zombie Fruits</div>
+<div class="slot">
+<div style="color:#ffd36b;font-weight:bold">ZOMBIE JACKPOT</div>
+<div class="reels">
+<div class="reel" id="r1">🍒</div>
+<div class="reel" id="r2">🍋</div>
+<div class="reel" id="r3">💎</div>
+</div>
+<div style="color:#ddd">Ставка Z-Coins</div>
+<input id="bet" type="number" value="100" min="1">
+<button class="spin" id="spinBtn" onclick="spin()">SPIN</button>
+<div class="game-result" id="result">Удачи в игре!</div>
+</div>
+</div>
+</div>
 
- <section class="controls">
-  <div class="betrow">
-   <div><div class="small">ТВОЯ СТАВКА</div><div class="betvalue"><span id="bet">10</span> Z</div></div>
-   <div class="small">ВИРТУАЛЬНЫЕ МОНЕТЫ</div>
-  </div>
-  <div class="betbuttons">
-   <button class="active" data-bet="10">10</button>
-   <button data-bet="25">25</button>
-   <button data-bet="50">50</button>
-   <button data-bet="100">100</button>
-   <button data-bet="250">250</button>
-  </div>
-  <button class="spin" id="spin">🎰 КРУТИТЬ</button>
-  <div class="message" id="message">Удачи в игре!</div>
- </section>
+<div class="page" id="wallet">
+<div class="section">
+<div class="title">💰 Мой кошелёк</div>
+<div class="card" style="text-align:center">
+<p>ТВОЙ БАЛАНС</p>
+<div style="font-size:38px;color:#ffd36b;font-weight:bold"><span id="walletBalance">0</span> Z</div>
+</div>
+<div class="card">
+<strong>⭐ Пополнение через Telegram Stars</strong>
+<p style="color:#bbaab2;font-size:13px">Покупка виртуальных Z-Coins.</p>
+<div class="package"><span>100 Z — 75 ⭐</span><button onclick="buyStars()">Выбрать</button></div>
+<div class="package"><span>500 Z — 300 ⭐</span><button onclick="buyStars()">Выбрать</button></div>
+<div class="package"><span>1 000 Z — 650 ⭐</span><button onclick="buyStars()">Выбрать</button></div>
+<p id="paymentMessage" style="color:#ffd36b;font-size:12px"></p>
+</div>
+<div class="card">
+<strong>История операций</strong>
+<div id="history" style="color:#bbaab2;font-size:13px;margin-top:12px">Пока операций нет</div>
+</div>
+</div>
+</div>
 
- <section class="info">
-  <div><span class="small">ПОСЛЕДНИЙ ВЫИГРЫШ</span><strong id="lastwin">0 Z</strong></div>
-  <div><span class="small">ВСЕГО ВЫИГРАНО</span><strong id="totalwin">0 Z</strong></div>
- </section>
-
- <section class="history">
-  <h3>📜 История вращений</h3>
-  <div id="history"><div class="small">Пока нет вращений</div></div>
- </section>
- <footer>Демо-игра · Только виртуальные Z-Coins · Без вывода денег</footer>
+<div class="page" id="profile">
+<div class="section">
+<div class="title">👤 Мой профиль</div>
+<div class="card">
+<div class="profile-head">
+<div class="avatar">🧟</div>
+<div>
+<strong id="username">Игрок</strong>
+<div class="green" id="role">Игрок</div>
+</div>
+</div>
+<hr style="border-color:#49323d;margin:17px 0">
+<p>Telegram ID: <strong id="telegramId">Не подключен</strong></p>
+<p>Аккаунт: <strong class="green" id="connection">Не подключен</strong></p>
+<p>Баланс: <strong id="profileBalance">0 Z</strong></p>
+</div>
+<div class="card">
+<strong>Настройки аккаунта</strong>
+<p style="color:#bbaab2;font-size:13px">ZombiXCasino — виртуальная игровая валюта.</p>
+</div>
+</div>
+</div>
 </main>
+
+<nav class="nav">
+<button class="active" onclick="showPage('home',this)">🏠<br>Главная</button>
+<button onclick="showPage('slots',this)">🎰<br>Слоты</button>
+<button onclick="showPage('wallet',this)">💰<br>Кошелёк</button>
+<button onclick="showPage('profile',this)">👤<br>Профиль</button>
+</nav>
+
 <script>
-const symbols=[
- {e:"🍬",m:2},{e:"🍒",m:3},{e:"🍋",m:4},
- {e:"🍉",m:5},{e:"🍇",m:7},{e:"💎",m:12},
- {e:"👑",m:20},{e:"☣️",m:30}
-];
-const $=id=>document.getElementById(id);
-let balance=Number(localStorage.getItem("zxc_balance"));
-if(!Number.isFinite(balance)||balance<0)balance=10000;
-let bet=10,busy=false,totalwin=Number(localStorage.getItem("zxc_totalwin"))||0;
-let history=[];
-const reels=[...document.querySelectorAll(".reel")];
+const OWNER_ID = 8883318440;
+const tg = window.Telegram?.WebApp;
+tg?.ready();
+tg?.expand();
+
+const tgUser = tg?.initDataUnsafe?.user;
+const isOwner = String(tgUser?.id || '') === String(OWNER_ID);
+
+let balance = Number(localStorage.getItem('zombix_demo_balance'));
+if (!Number.isFinite(balance)) balance = isOwner ? 10000 : 0;
+
+let history = JSON.parse(localStorage.getItem('zombix_history') || '[]');
+
 function save(){
- localStorage.setItem("zxc_balance",balance);
- localStorage.setItem("zxc_totalwin",totalwin);
+ localStorage.setItem('zombix_demo_balance',balance);
+ localStorage.setItem('zombix_history',JSON.stringify(history));
+ render();
 }
-function fmt(n){return Math.floor(n).toLocaleString("ru-RU")}
-function update(){
- $("balance").textContent=fmt(balance);
- $("bet").textContent=bet;
- $("totalwin").textContent=fmt(totalwin)+" Z";
- save();
-}
-function pick(){return symbols[Math.floor(Math.random()*symbols.length)]}
-function draw(){
- reels.forEach(r=>{
-  r.innerHTML="";
-  for(let i=0;i<3;i++){
-   const c=document.createElement("div");
-   c.className="cell";c.textContent=pick().e;r.appendChild(c);
-  }
+function render(){
+ ['topBalance','walletBalance','profileBalance'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.textContent=balance.toLocaleString('ru-RU')+(id==='profileBalance'?' Z':'');
  });
+ document.getElementById('role').textContent=isOwner?'Владелец':'Игрок';
+ document.getElementById('username').textContent=tgUser?.username?'@'+tgUser.username:(isOwner?'GGGbenz77':'Игрок');
+ document.getElementById('telegramId').textContent=tgUser?.id || 'Не подключен';
+ document.getElementById('connection').textContent=tgUser?'Telegram открыт':'Откройте через Telegram';
+ document.getElementById('history').innerHTML=history.length?history.map(x=>'<div style="padding:7px 0;border-bottom:1px solid #44313a">'+x+'</div>').join(''):'Пока операций нет';
 }
-draw();update();
-document.querySelectorAll("[data-bet]").forEach(b=>{
- b.onclick=()=>{
-  if(busy)return;
-  bet=Number(b.dataset.bet);
-  document.querySelectorAll("[data-bet]").forEach(x=>x.classList.toggle("active",x===b));
-  update();
- };
-});
-function evaluate(grid){
- let win=0;
- // Пять горизонтальных линий и три вертикальные линии
- for(let row=0;row<3;row++){
-  const line=grid.map(col=>col[row]);
-  let count=1;
-  while(count<5&&line[count].e===line[0].e)count++;
-  if(count>=3)win+=bet*line[0].m*(count===3?1:count===4?2:5);
- }
- for(let col=0;col<5;col++){
-  const line=grid[col].map(x=>x);
-  let count=1;
-  while(count<3&&line[count].e===line[0].e)count++;
-  if(count===3)win+=bet*line[0].m;
- }
- return Math.floor(win);
+function showPage(id,btn){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+ else document.querySelectorAll('.nav button')[['home','slots','wallet','profile'].indexOf(id)].classList.add('active');
 }
-function addHistory(w){
- const item=document.createElement("div");
- item.className="history-item";
- item.innerHTML=`<span>${new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})} · ставка ${bet} Z</span><strong class="${w>0?"wintext":"losstext"}">${w>0?"+"+fmt(w):"−"+fmt(bet)} Z</strong>`;
- $("history").prepend(item);
- while($("history").children.length>8)$("history").lastChild.remove();
+function spin(){
+ const bet=Math.floor(Number(document.getElementById('bet').value));
+ if(!Number.isFinite(bet)||bet<1){result('Введите корректную ставку');return;}
+ if(bet>balance){result('Недостаточно Z-Coins');return;}
+ const symbols=['🍒','🍋','🍉','🍇','💎','7️⃣','🧟'];
+ const reels=[r1,r2,r3];
+ const btn=document.getElementById('spinBtn');
+ btn.disabled=true;
+ reels.forEach(x=>x.classList.add('spinning'));
+ let ticks=0;
+ const timer=setInterval(()=>{
+  reels.forEach(x=>x.textContent=symbols[Math.floor(Math.random()*symbols.length)]);
+  ticks++;
+  if(ticks>=12){
+   clearInterval(timer);
+   reels.forEach(x=>x.classList.remove('spinning'));
+   const a=symbols[Math.floor(Math.random()*symbols.length)];
+   const b=symbols[Math.floor(Math.random()*symbols.length)];
+   const c=symbols[Math.floor(Math.random()*symbols.length)];
+   r1.textContent=a;r2.textContent=b;r3.textContent=c;
+   let prize=0;
+   if(a===b&&b===c)prize=bet*10;
+   else if(a===b||b===c||a===c)prize=bet*2;
+   balance=balance-bet+prize;
+   history.unshift((prize?'Выигрыш +':'Ставка -')+(prize?prize:bet)+' Z');
+   history=history.slice(0,20);
+   save();
+   result(prize?'🎉 ВЫИГРЫШ '+prize+' Z':'Попробуй ещё раз!');
+   btn.disabled=false;
+  }
+ },100);
 }
-async function spin(){
- if(busy)return;
- if(balance<bet){$("message").textContent="Недостаточно Z-Coins";return;}
- busy=true;$("spin").disabled=true;
- balance-=bet;update();
- $("message").textContent="Барабаны вращаются...";
- const grid=Array.from({length:5},()=>[]);
- const delays=[650,1000,1350,1700,2050];
- reels.forEach(r=>r.classList.add("spinning"));
- const tasks=reels.map((r,col)=>new Promise(resolve=>{
-  let ticks=0;
-  const timer=setInterval(()=>{
-   r.innerHTML="";
-   for(let row=0;row<3;row++){
-    const c=document.createElement("div");
-    c.className="cell";c.textContent=pick().e;r.appendChild(c);
-   }
-   ticks++;
-   if(ticks>=Math.ceil(delays[col]/65)){
-    clearInterval(timer);
-    grid[col]=Array.from({length:3},()=>pick());
-    r.innerHTML="";
-    grid[col].forEach(s=>{
-     const c=document.createElement("div");c.className="cell";c.textContent=s.e;r.appendChild(c);
-    });
-    r.classList.remove("spinning");
-    resolve();
-   }
-  },65);
- }));
- await Promise.all(tasks);
- const win=evaluate(grid);
- if(win>0){
-  balance+=win;totalwin+=win;
-  $("message").textContent="🎉 ПОБЕДА! +" +fmt(win)+" Z";
-  $("lastwin").textContent=fmt(win)+" Z";
- }else{
-  $("message").textContent="В этот раз без выигрыша. Попробуй ещё!";
-  $("lastwin").textContent="0 Z";
- }
- addHistory(win);update();
- busy=false;$("spin").disabled=false;
+function result(s){document.getElementById('result').textContent=s}
+function buyStars(){
+ document.getElementById('paymentMessage').textContent='Оплата Stars пока не подключена. Нужен Telegram-бот и серверная проверка платежей.';
 }
-$("spin").onclick=spin;
+setTimeout(()=>document.getElementById('loader').style.display='none',1800);
+render();
 </script>
 </body>
 </html>
